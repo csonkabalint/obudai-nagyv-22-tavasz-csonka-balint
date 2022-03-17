@@ -4,8 +4,12 @@ import gameclub.domain.*;
 import java.io.File;
 import java.util.ArrayList;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gameclub.dto.JoinRequestDTO;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeMap;
 
 public class DataStore {
+
 
     public ArrayList<Player> players;
     public ArrayList<Game> games;
@@ -13,9 +17,17 @@ public class DataStore {
     public ArrayList<JoinRequest> joinRequests;
     public ArrayList<Event> events;
 
+    ModelMapper modelMapper = new ModelMapper();
     ObjectMapper objectMapper = new ObjectMapper();
+    TypeMap<JoinRequestDTO, JoinRequest> joinRequestJoinRequestDTOTypeMap = this.modelMapper.createTypeMap(JoinRequestDTO.class, JoinRequest.class);
+
+    private void InitTypeMap(){
+        //joinRequestJoinRequestDTOTypeMap.addMapping();
+    }
 
     public void InitializeData(){
+
+
 
         try {
             players = objectMapper.readValue(new File("Data/users.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Player.class));

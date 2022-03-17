@@ -1,10 +1,12 @@
-package gameclub.domain;
+package gameclub.dto;
 
-public class JoinRequest {
+import gameclub.domain.JoinRequestState;
+
+public class JoinRequestDTO {
 
     JoinRequestState state;
-    Group group;
-    Player player;
+    int group;
+    int player;
 
     public JoinRequestState getState() {
         return state;
@@ -14,24 +16,22 @@ public class JoinRequest {
         this.state = state;
     }
 
-    public Group getGroup() {
+    public int getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(int group) {
         this.group = group;
     }
 
-    public Player getPlayer() {
+    public int getPlayer() {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(int player) {
         this.player = player;
     }
 
-    public JoinRequest() {
+    public JoinRequestDTO() {
     }
-
 }
-
