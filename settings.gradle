@@ -1,0 +1,6 @@
+rootProject.name = 'gameclub'
+include 'gameclub-app'
+include 'gameclub-domain'
+include 'gameclub-persistence'
+include 'gameclub-service'
+
