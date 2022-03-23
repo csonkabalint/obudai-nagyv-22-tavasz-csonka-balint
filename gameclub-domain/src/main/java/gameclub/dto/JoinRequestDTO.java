@@ -5,8 +5,8 @@ import gameclub.domain.JoinRequestState;
 public class JoinRequestDTO {
 
     JoinRequestState state;
-    int group;
-    int player;
+    int groupId;
+    int userId;
 
     public JoinRequestState getState() {
         return state;
@@ -16,20 +16,20 @@ public class JoinRequestDTO {
         this.state = state;
     }
 
-    public int getGroup() {
-        return group;
+    public int getGroupId() {
+        return groupId;
     }
 
-    public void setGroup(int group) {
-        this.group = group;
+    public void setGroupId(int groupId) {
+        this.groupId = groupId;
     }
 
-    public int getPlayer() {
-        return player;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setPlayer(int player) {
-        this.player = player;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public JoinRequestDTO() {
