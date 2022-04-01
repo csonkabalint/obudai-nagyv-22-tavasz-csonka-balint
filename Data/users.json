@@ -31,5 +31,13 @@
     "email": "kiss.istvan@gmail.com",
     "roles": ["PLAYER"],
     "games": [2]
+  },
+  { "id": 5,
+    "loginName": "",
+    "password": "",
+    "name": "a",
+    "email": "a@gmail.com",
+    "roles": ["PLAYER"],
+    "games": [2]
   }
 ]
