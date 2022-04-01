@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gameclub.dto.GroupDTO;
 import gameclub.dto.JoinRequestDTO;
 import gameclub.dto.PlayerDTO;
 import org.modelmapper.Converter;
@@ -25,6 +26,7 @@ public class DataStore {
     public ArrayList<JoinRequest> joinRequests;
     public ArrayList<Event> events;
 
+    public ArrayList<GroupDTO> groupDTOs;
     public ArrayList<JoinRequestDTO> joinRequestDTOs;
     public ArrayList<PlayerDTO> playerDTOs;
 
@@ -34,6 +36,8 @@ public class DataStore {
     private ObjectMapper objectMapper = new ObjectMapper();
     TypeMap<JoinRequestDTO, JoinRequest> joinRequestJoinRequestDTOTypeMap = this.modelMapper.createTypeMap(JoinRequestDTO.class, JoinRequest.class);
     TypeMap<PlayerDTO, Player> playerPLayerDTOTypeMap = this.modelMapper.createTypeMap(PlayerDTO.class, Player.class);
+    TypeMap<GroupDTO, Group> groupGroupDTOTypeMap = this.modelMapper.createTypeMap(GroupDTO.class, Group.class);
+
 
     private void InitTypeMap(){
 
@@ -46,6 +50,14 @@ public class DataStore {
         // Player converters
         Converter<ArrayList<Long>,ArrayList<Game>> gameIdToGameRef = ga -> new ArrayList<Game>((games.stream().filter(g -> ga.getSource().contains(g.getId())).collect(Collectors.toList())));
         playerPLayerDTOTypeMap.addMappings(mapping -> mapping.using(gameIdToGameRef).map(PlayerDTO::getGames,Player::setGames));
+
+        // Group converters
+        Converter<ArrayList<Long>,ArrayList<Player>> playerIdsToPlayerRefs = pl -> new ArrayList<Player>((players.stream().filter(p -> pl.getSource().contains(p.getId())).collect(Collectors.toList())));
+        //Converter<ArrayList<Long>,ArrayList<Event>> eventIdsToEventRefs = ev -> new ArrayList<Event>((events.stream().filter(e -> ev.getSource().contains(e.getId())).collect(Collectors.toList())));
+        Converter<Long, Player> adminIdToAdminRef = pl -> players.stream().filter(p -> p.getId() == pl.getSource()).findFirst().orElse(null);
+        groupGroupDTOTypeMap.addMappings(mapping -> mapping.using(playerIdsToPlayerRefs).map(GroupDTO::getMembers,Group::setMembers));
+        groupGroupDTOTypeMap.addMappings(mapping -> mapping.using(adminIdToAdminRef).map(GroupDTO::getAdmin,Group::setAdmin));
+
     }
 
 
@@ -60,7 +72,8 @@ public class DataStore {
             games = objectMapper.readValue(new File("Data/games.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Game.class));
             playerDTOs = objectMapper.readValue(new File("Data/users.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, PlayerDTO.class));
             players = MapDTOtoClass(playerPLayerDTOTypeMap,playerDTOs);
-            groups = objectMapper.readValue(new File("Data/groups.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Group.class));
+            groupDTOs = objectMapper.readValue(new File("Data/groups.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, GroupDTO.class));
+            groups = MapDTOtoClass(groupGroupDTOTypeMap,groupDTOs);
             joinRequestDTOs = objectMapper.readValue(new File("Data/joinRequests.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, JoinRequestDTO.class));
             joinRequests = MapDTOtoClass(joinRequestJoinRequestDTOTypeMap,joinRequestDTOs);
             //events = objectMapper.readValue(new File("Data/users.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));

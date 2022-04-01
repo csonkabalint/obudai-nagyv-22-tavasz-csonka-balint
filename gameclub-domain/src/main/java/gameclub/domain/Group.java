@@ -6,9 +6,9 @@ public class Group {
 
     long id;
     String name;
-    int admin;
-    ArrayList<Integer> members;
-    ArrayList<Integer> events;
+    User admin;
+    ArrayList<Player> members;
+    ArrayList<Event> events;
 
     public long getId() {
         return id;
@@ -26,27 +26,27 @@ public class Group {
         this.name = name;
     }
 
-    public int getAdmin() {
+    public User getAdmin() {
         return admin;
     }
 
-    public void setAdmin(int admin) {
+    public void setAdmin(User admin) {
         this.admin = admin;
     }
 
-    public ArrayList<Integer> getMembers() {
+    public ArrayList<Player> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<Integer> members) {
+    public void setMembers(ArrayList<Player> members) {
         this.members = members;
     }
 
-    public ArrayList<Integer> getEvents() {
+    public ArrayList<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(ArrayList<Integer> events) {
+    public void setEvents(ArrayList<Event> events) {
         this.events = events;
     }
 
