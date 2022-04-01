@@ -1,6 +1,8 @@
 plugins {
+
     id 'java'
     id 'application'
+
 }
 
 allprojects {
@@ -21,6 +23,8 @@ subprojects {
     dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+        //implementation 'org.springframework.boot:spring-boot:2.6.4'
+        implementation group: 'org.springframework.boot', name: 'spring-boot-starter', version: '2.6.5'
 
     }
 
