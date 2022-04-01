@@ -33,5 +33,10 @@ public class JoinRequest {
     public JoinRequest() {
     }
 
+    public JoinRequest(JoinRequestState state, Group group, Player player) {
+        this.state = state;
+        this.group = group;
+        this.player = player;
+    }
 }
 

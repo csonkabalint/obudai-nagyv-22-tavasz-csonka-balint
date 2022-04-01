@@ -5,13 +5,13 @@ import java.util.ArrayList;
 public class Player extends User {
 
     //ArrayList<Game> games;
-    ArrayList<Integer> games;
+    ArrayList<Game> games;
 
-    public ArrayList<Integer> getGames() {
+    public ArrayList<Game> getGames() {
         return games;
     }
 
-    public void setGames(ArrayList<Integer> games) {
+    public void setGames(ArrayList<Game> games) {
         this.games = games;
     }
 
