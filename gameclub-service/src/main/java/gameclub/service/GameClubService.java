@@ -3,6 +3,7 @@ package gameclub.service;
 import gameclub.domain.Game;
 import gameclub.domain.Group;
 import gameclub.domain.JoinRequest;
+import gameclub.domain.JoinRequestState;
 import gameclub.persistence.DataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,28 @@ public class GameClubService {
 
     public void CreateJoinRequest(long groupID){
         dataStore.CreateJoinRequest(groupID,identityManager.getCurrentPLayer().getId());
+    }
+
+    public void EvaluateJoinRequest(String evaluation,long userID){
+        JoinRequest request = dataStore.joinRequests.stream().filter(j -> (j.getPlayer().getId() == userID && j.getGroup().getAdmin().getId() ==
+                identityManager.getCurrentPLayer().getId())).findFirst().orElse(null);
+
+        if (evaluation.toUpperCase().equals("A")){
+            request.setState(JoinRequestState.ACCEPTED);
+            dataStore.groups.stream().filter(g -> g.getId() == request.getGroup().getId()).findFirst().orElse(null).getMembers().add(
+                    dataStore.players.stream().filter(p -> p.getId() == userID).findFirst().orElse(null));
+        }
+        else if(evaluation.toUpperCase().equals("R")){
+            request.setState(JoinRequestState.REJECTED);
+        }
+    }
+
+    public void EvaluateJoinRequest(String evaluationWithID){
+
+        long userID = Long.parseLong(evaluationWithID.substring(0,evaluationWithID.length() - 1));
+        String evaluation = evaluationWithID.substring(evaluationWithID.length() - 1,evaluationWithID.length()).toUpperCase();
+
+        EvaluateJoinRequest(evaluation,userID);
     }
 
 }

@@ -17,6 +17,7 @@ public class ConsoleView {
     String loginFailure = "Login failure, bye.";
 
     public String LoginName(){
+
         Scanner sc = new Scanner(System.in);
         System.out.print(loginName);
         String input = sc.nextLine();
@@ -24,6 +25,7 @@ public class ConsoleView {
     }
 
     public String LoginPassword(){
+
         Scanner sc = new Scanner(System.in);
         System.out.print(loginPassword);
         String input = sc.nextLine();
@@ -40,16 +42,29 @@ public class ConsoleView {
 
     // Menu
 
-    String manu = "Here are the possible actions:\n1. View list of all games\n2. Add my game\n3. Create Join request\n4. Handle Join request\n5. Quit application\nPlease choose an item:";
+    String groupAdminMenu = "Here are the possible actions:\n1. View list of all games\n2. Add my game\n3. Create Join request\n4. Handle Join request\n5. Quit application\nPlease choose an item:b";
+    String playerMenu = "Here are the possible actions:\n1. View list of all games\n2. Add my game\n3. Create Join request\n4. Quit application\nPlease choose an item: ";
 
-    public int Menu(){
+    public int PLayerMenu(){
+        return printMenu(playerMenu);
+    }
+
+    public int GroupAdminMenu(){
+        return printMenu(groupAdminMenu);
+    }
+
+    private int printMenu(String menuText){
         Scanner sc = new Scanner(System.in);
-        System.out.print(manu);
+        System.out.print(menuText);
         int input = sc.nextInt();
         return input;
     }
 
     // SubMenus
+
+    public void ListAllGames(){
+        System.out.println("not ready");
+    }
 
     String gameListHeader = "Please choose a game from the following list add: ";
     String chooseGame = "Please choose game: ";
@@ -58,12 +73,6 @@ public class ConsoleView {
 
         String answer = PrintListWithHeaderAndQuestion(gameList,gameListHeader,chooseGame);
         return Long.parseLong(answer);
-        /*Scanner sc = new Scanner(System.in);
-        System.out.println(gameListHeader);
-        gameList.forEach((g,l) -> System.out.println(g + ". " + l));
-        System.out.print(chooseGame);
-        long input = sc.nextInt();
-        return input;*/
     }
 
     public void AddGameSuccess(){}
@@ -76,18 +85,19 @@ public class ConsoleView {
 
         String answer = PrintListWithHeaderAndQuestion(groupList,joinReqHeader,chooseGroup);
         return Long.parseLong(answer);
-        /*Scanner sc = new Scanner(System.in);
-        System.out.println(joinReqHeader);
-        groupList.forEach((g,l) -> System.out.println(g + ". " + l));
-        System.out.print(chooseGroup);
-        long input = sc.nextInt();
-        return input;*/
     }
 
     public void RequestJoinSuccess(){}
 
+    String handleRequestHeader = "List of players who would like to join your group. Please select player number and (A)ccept or (R)eject: ";
+    String choosePlayer = "Please answer: ";
+
     public String HandleRequests(HashMap<Long, String> groupList){
-        return "1A";
+        return PrintListWithHeaderAndQuestion(groupList,handleRequestHeader,choosePlayer);
+    }
+
+    public void Close(){
+        System.out.println("Bye");
     }
 
     // Util
@@ -98,7 +108,19 @@ public class ConsoleView {
         list.forEach((g,l) -> System.out.println(g + ". " + l));
         System.out.print(question);
         String input = sc.nextLine();
-        //ArrayList<Integer> keys = list.keySet();
+        return input;
+    }
+
+    private String PrintListWithHeaderAndQuestion(ArrayList<Long> IDList, ArrayList<String> Itemlist, String header, String question){
+        Scanner sc = new Scanner(System.in);
+        System.out.println(header);
+        for (int i = 0; i < IDList.size(); i++){
+            System.out.println(i + Itemlist.get(i));
+        }
+        System.out.print(question);
+        String stringInput = sc.nextLine().stripTrailing();
+        int numericInput = Integer.parseInt(stringInput.substring(0,stringInput.length() - 1));
+        String input = IDList.get(numericInput).toString() + stringInput.substring(stringInput.length() - 1,stringInput.length());
         return input;
     }
 

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
@@ -28,19 +29,23 @@ public class Application {
 
     public static void main(String[] args){
         SpringApplication.run(Application.class, args);
-        System.out.println("Bye");
     }
 
     @Bean
-    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
+    public CommandLineRunner commandLineRunner(ConfigurableApplicationContext ctx) {
         return args -> {
-            application.Play();
+            application.Play(ctx);
         };
     }
 
-    public void Play(){
+    public void Play(ConfigurableApplicationContext ctx){
         Login();
-        Menu();
+        Menu(ctx);
+    }
+
+    public void Close(ConfigurableApplicationContext ctx){
+        //meg kell hívni az adat kiiratast, es user eltavolitast!!!
+        ctx.close();
     }
 
     public void Login(){
@@ -56,12 +61,22 @@ public class Application {
         }
     }
 
-    public void Menu(){
-        int choice = consoleView.Menu();
+    public void Menu(ConfigurableApplicationContext ctx){
+        if(gameClubService.identityManager.authorizeAs("GROUPADMIN")){
+            GroupAdminMenu(ctx);
+        }
+        else if(gameClubService.identityManager.authorizeAs("PLAYER")){
+            PlayerMenu(ctx);
+        }
+    }
+
+    private void PlayerMenu(ConfigurableApplicationContext ctx){
+        int choice = consoleView.PLayerMenu();
 
         switch(choice) {
-            case 1:
 
+            case 1:
+                consoleView.ListAllGames();
                 break;
             case 2:
                 long gameID = consoleView.AddGame(gameClubService.ListGames());
@@ -71,9 +86,39 @@ public class Application {
                 long groupID = consoleView.RequestJoin(gameClubService.ListGroups());
                 gameClubService.CreateJoinRequest(groupID);
                 break;
+            case 4:
+                consoleView.Close();
+                Close(ctx);
             default:
-                Menu();
+                break;
         }
     }
 
+    private void GroupAdminMenu(ConfigurableApplicationContext ctx){
+        int choice = consoleView.GroupAdminMenu();
+
+        switch(choice) {
+
+            case 1:
+                consoleView.ListAllGames();
+                break;
+            case 2:
+                long gameID = consoleView.AddGame(gameClubService.ListGames());
+                gameClubService.AddGame(gameID);
+                break;
+            case 3:
+                long groupID = consoleView.RequestJoin(gameClubService.ListGroups());
+                gameClubService.CreateJoinRequest(groupID);
+                break;
+            case 4:
+                String reqAnswer = consoleView.HandleRequests(gameClubService.ListJoinRequests());
+                gameClubService.EvaluateJoinRequest(reqAnswer);
+                break;
+            case 5:
+                consoleView.Close();
+                Close(ctx);
+            default:
+                break;
+        }
+    }
 }
