@@ -12,11 +12,10 @@ public class ConsoleView {
 
     String loginName = "Login name: ";
     String loginPassword = "Password: ";
-    String loginSuccess = "Login successful. Your role: ";
+    String loginSuccess = "Login successful. Your roles: ";
     String loginFailure = "Login failure, bye.";
 
     public String LoginName(){
-
         Scanner sc = new Scanner(System.in);
         System.out.print(loginName);
         String input = sc.nextLine();
@@ -24,7 +23,6 @@ public class ConsoleView {
     }
 
     public String LoginPassword(){
-
         Scanner sc = new Scanner(System.in);
         System.out.print(loginPassword);
         String input = sc.nextLine();

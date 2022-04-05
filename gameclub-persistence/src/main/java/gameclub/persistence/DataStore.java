@@ -32,9 +32,12 @@ public class DataStore {
 
     private ModelMapper modelMapper = new ModelMapper();
     private ObjectMapper objectMapper = new ObjectMapper();
+
     TypeMap<JoinRequestDTO, JoinRequest> joinRequestJoinRequestDTOTypeMap = this.modelMapper.createTypeMap(JoinRequestDTO.class, JoinRequest.class);
     TypeMap<PlayerDTO, Player> playerPLayerDTOTypeMap = this.modelMapper.createTypeMap(PlayerDTO.class, Player.class);
     TypeMap<GroupDTO, Group> groupGroupDTOTypeMap = this.modelMapper.createTypeMap(GroupDTO.class, Group.class);
+
+    TypeMap<JoinRequest,JoinRequestDTO> joinRequestDTOJoinRequestTypeMap = this.modelMapper.createTypeMap(JoinRequest.class, JoinRequestDTO.class);
 
 
     private void InitTypeMap(){
@@ -44,6 +47,13 @@ public class DataStore {
         Converter<Integer, Group> groupIdToGroupRef = gr -> groups.stream().filter(g -> g.getId() == gr.getSource()).findFirst().orElse(null);
         joinRequestJoinRequestDTOTypeMap.addMappings(mapping -> mapping.using(playerIdToPlayerRef).map(JoinRequestDTO::getUserId,JoinRequest::setPlayer));
         joinRequestJoinRequestDTOTypeMap.addMappings(mapping -> mapping.using(groupIdToGroupRef).map(JoinRequestDTO::getGroupId,JoinRequest::setGroup));
+
+        // JoinRequestDTO converters
+        Converter<Player, Integer> playerRefToPlayerId = pl -> (int)(pl.getSource().getId());
+        Converter<Group, Integer> groupRefToGroupId = gr -> (int)(gr.getSource().getId());
+        joinRequestDTOJoinRequestTypeMap.addMappings(mapping -> mapping.using(playerRefToPlayerId).map(JoinRequest::getPlayer,JoinRequestDTO::setUserId));
+        joinRequestDTOJoinRequestTypeMap.addMappings(mapping -> mapping.using(groupRefToGroupId).map(JoinRequest::getGroup,JoinRequestDTO::setGroupId));
+
 
         // Player converters
         Converter<ArrayList<Long>,ArrayList<Game>> gameIdToGameRef = ga -> new ArrayList<Game>((games.stream().filter(g -> ga.getSource().contains(g.getId())).collect(Collectors.toList())));
@@ -97,6 +107,35 @@ public class DataStore {
             }
         }
         return classCollection;
+    }
+
+    private <Cl, Dl>  ArrayList<Dl> MapClassToDTO(TypeMap<Cl, Dl> typeMap, ArrayList<Cl> classCollection){
+
+        ArrayList<Dl> dtoCollection = new ArrayList<Dl>();
+
+        for (int i = 0; i < classCollection.size(); i++){
+            try {
+                dtoCollection.add(typeMap.map(classCollection.get(i)));
+            }
+            catch (Exception ex){
+
+                System.out.println(ex.getMessage());
+            }
+        }
+        return dtoCollection;
+    }
+
+    // On CLOSE
+
+    public void SaveChangesToJson(){
+        joinRequestDTOs = MapDTOtoClass(joinRequestDTOJoinRequestTypeMap,joinRequests);
+        try{
+            objectMapper.writeValue(new File("Data/joinRequests.json"),joinRequestDTOs);
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+        System.out.println("data saved");
     }
 
     // CRUD

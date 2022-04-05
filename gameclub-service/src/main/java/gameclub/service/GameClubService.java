@@ -98,4 +98,9 @@ public class GameClubService {
         EvaluateJoinRequest(evaluation,userID);
     }
 
+    public void CloseService(){
+        identityManager.currentPLayer = null;
+        dataStore.SaveChangesToJson();
+    }
+
 }

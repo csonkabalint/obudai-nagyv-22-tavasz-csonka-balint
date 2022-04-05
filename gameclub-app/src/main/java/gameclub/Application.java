@@ -39,10 +39,12 @@ public class Application {
     public void Play(ConfigurableApplicationContext ctx){
         Login();
         Menu(ctx);
+        Close(ctx);
     }
 
     public void Close(ConfigurableApplicationContext ctx){
         //meg kell hívni az adat kiiratast, es user eltavolitast!!!
+        gameClubService.CloseService();
         ctx.close();
     }
 
@@ -85,8 +87,8 @@ public class Application {
                 gameClubService.CreateJoinRequest(groupID);
                 break;
             case 4:
-                consoleView.Close();
-                Close(ctx);
+                /*consoleView.Close();
+                Close(ctx);*/
             default:
                 break;
         }
@@ -113,8 +115,8 @@ public class Application {
                 gameClubService.EvaluateJoinRequest(reqAnswer);
                 break;
             case 5:
-                consoleView.Close();
-                Close(ctx);
+                /*consoleView.Close();
+                Close(ctx);*/
             default:
                 break;
         }
