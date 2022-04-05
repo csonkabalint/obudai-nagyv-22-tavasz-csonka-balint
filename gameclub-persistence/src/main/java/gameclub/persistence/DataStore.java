@@ -62,7 +62,7 @@ public class DataStore {
         playerPLayerDTOTypeMap.addMappings(mapping -> mapping.using(gameIdToGameRef).map(PlayerDTO::getGames,Player::setGames));
 
         // PLayerDTO converter
-        Converter<ArrayList<Game>, ArrayList<Integer>> gameRefToGameId = ga -> new ArrayList<Integer>(ga.getSource().stream().map(g -> (int)g.getId()).collect(Collectors.toList()));
+        Converter<ArrayList<Game>, ArrayList<Long>> gameRefToGameId = ga -> new ArrayList<Long>(ga.getSource().stream().map(g -> g.getId()).collect(Collectors.toList()));
         playerDTOPLayerTypeMap.addMappings(mapping -> mapping.using(gameRefToGameId).map(Player::getGames,PlayerDTO::setGames));
 
         // Group converters
@@ -73,8 +73,8 @@ public class DataStore {
         groupGroupDTOTypeMap.addMappings(mapping -> mapping.using(adminIdToAdminRef).map(GroupDTO::getAdmin,Group::setAdmin));
 
         // Group converters
-        Converter<ArrayList<Player>, ArrayList<Integer>> playerRefsToPlayerIds = pl -> new ArrayList<Integer>(pl.getSource().stream().map(p -> (int)p.getId()).collect(Collectors.toList()));
-        Converter<Player, Integer> adminRefToAdminId = pl -> (int)(pl.getSource().getId());
+        Converter<ArrayList<Player>, ArrayList<Long>> playerRefsToPlayerIds = pl -> new ArrayList<Long>(pl.getSource().stream().map(p -> p.getId()).collect(Collectors.toList()));
+        Converter<Player, Long> adminRefToAdminId = pl -> (pl.getSource().getId());
         groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(playerRefsToPlayerIds).map(Group::getMembers,GroupDTO::setMembers));
         groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(adminRefToAdminId).map(Group::getAdmin,GroupDTO::setAdmin));
 
