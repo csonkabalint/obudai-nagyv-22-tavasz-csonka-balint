@@ -75,8 +75,8 @@ public class DataStore {
         // Group converters
         Converter<ArrayList<Player>, ArrayList<Integer>> playerRefsToPlayerIds = pl -> new ArrayList<Integer>(pl.getSource().stream().map(p -> (int)p.getId()).collect(Collectors.toList()));
         Converter<Player, Integer> adminRefToAdminId = pl -> (int)(pl.getSource().getId());
-        groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(playerIdsToPlayerRefs).map(Group::getMembers,GroupDTO::setMembers));
-        groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(adminIdToAdminRef).map(Group::getAdmin,GroupDTO::setAdmin));
+        groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(playerRefsToPlayerIds).map(Group::getMembers,GroupDTO::setMembers));
+        groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(adminRefToAdminId).map(Group::getAdmin,GroupDTO::setAdmin));
 
 
 
