@@ -1,14 +1,12 @@
 package gameclub.persistence;
 
 import gameclub.domain.*;
+import gameclub.dto.*;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gameclub.dto.GroupDTO;
-import gameclub.dto.JoinRequestDTO;
-import gameclub.dto.PlayerDTO;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeMap;

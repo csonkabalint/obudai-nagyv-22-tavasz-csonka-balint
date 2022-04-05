@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Lazy;
 public class Application {
 
 
-
     @Autowired
     private GameClubService gameClubService;
 
@@ -61,10 +60,10 @@ public class Application {
     }
 
     public void Menu(ConfigurableApplicationContext ctx){
-        if(gameClubService.identityManager.authorizeAs("GROUP_ADMIN")){
+        if(gameClubService.identityManager.AuthorizeAs("GROUP_ADMIN")){
             GroupAdminMenu(ctx);
         }
-        else if(gameClubService.identityManager.authorizeAs("PLAYER")){
+        else if(gameClubService.identityManager.AuthorizeAs("PLAYER")){
             PlayerMenu(ctx);
         }
     }

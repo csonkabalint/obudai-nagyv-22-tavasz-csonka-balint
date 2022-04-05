@@ -16,7 +16,7 @@ public class IdentityManager {
         this.currentPLayer = currentPLayer;
     }
 
-    public boolean authorizeAs(String role){
+    public boolean AuthorizeAs(String role){
         return currentPLayer.getRoles().stream().anyMatch(r -> r.toString().equals(role.toUpperCase()));
     }
 
