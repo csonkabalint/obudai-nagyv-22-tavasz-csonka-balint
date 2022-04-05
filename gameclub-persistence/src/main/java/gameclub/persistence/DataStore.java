@@ -38,6 +38,8 @@ public class DataStore {
     TypeMap<GroupDTO, Group> groupGroupDTOTypeMap = this.modelMapper.createTypeMap(GroupDTO.class, Group.class);
 
     TypeMap<JoinRequest,JoinRequestDTO> joinRequestDTOJoinRequestTypeMap = this.modelMapper.createTypeMap(JoinRequest.class, JoinRequestDTO.class);
+    TypeMap<Player, PlayerDTO> playerDTOPLayerTypeMap = this.modelMapper.createTypeMap(Player.class, PlayerDTO.class);
+    TypeMap<Group,GroupDTO> groupDTOGroupTypeMap = this.modelMapper.createTypeMap(Group.class,GroupDTO.class);
 
 
     private void InitTypeMap(){
@@ -59,12 +61,24 @@ public class DataStore {
         Converter<ArrayList<Long>,ArrayList<Game>> gameIdToGameRef = ga -> new ArrayList<Game>((games.stream().filter(g -> ga.getSource().contains(g.getId())).collect(Collectors.toList())));
         playerPLayerDTOTypeMap.addMappings(mapping -> mapping.using(gameIdToGameRef).map(PlayerDTO::getGames,Player::setGames));
 
+        // PLayerDTO converter
+        Converter<ArrayList<Game>, ArrayList<Integer>> gameRefToGameId = ga -> new ArrayList<Integer>(ga.getSource().stream().map(g -> (int)g.getId()).collect(Collectors.toList()));
+        playerDTOPLayerTypeMap.addMappings(mapping -> mapping.using(gameRefToGameId).map(Player::getGames,PlayerDTO::setGames));
+
         // Group converters
         Converter<ArrayList<Long>,ArrayList<Player>> playerIdsToPlayerRefs = pl -> new ArrayList<Player>((players.stream().filter(p -> pl.getSource().contains(p.getId())).collect(Collectors.toList())));
         //Converter<ArrayList<Long>,ArrayList<Event>> eventIdsToEventRefs = ev -> new ArrayList<Event>((events.stream().filter(e -> ev.getSource().contains(e.getId())).collect(Collectors.toList())));
         Converter<Long, Player> adminIdToAdminRef = pl -> players.stream().filter(p -> p.getId() == pl.getSource()).findFirst().orElse(null);
         groupGroupDTOTypeMap.addMappings(mapping -> mapping.using(playerIdsToPlayerRefs).map(GroupDTO::getMembers,Group::setMembers));
         groupGroupDTOTypeMap.addMappings(mapping -> mapping.using(adminIdToAdminRef).map(GroupDTO::getAdmin,Group::setAdmin));
+
+        // Group converters
+        Converter<ArrayList<Player>, ArrayList<Integer>> playerRefsToPlayerIds = pl -> new ArrayList<Integer>(pl.getSource().stream().map(p -> (int)p.getId()).collect(Collectors.toList()));
+        Converter<Player, Integer> adminRefToAdminId = pl -> (int)(pl.getSource().getId());
+        groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(playerIdsToPlayerRefs).map(Group::getMembers,GroupDTO::setMembers));
+        groupDTOGroupTypeMap.addMappings(mapping -> mapping.using(adminIdToAdminRef).map(Group::getAdmin,GroupDTO::setAdmin));
+
+
 
     }
 
@@ -129,8 +143,15 @@ public class DataStore {
 
     public void SaveChangesToJson(){
         joinRequestDTOs = MapDTOtoClass(joinRequestDTOJoinRequestTypeMap,joinRequests);
+        playerDTOs = MapDTOtoClass(playerDTOPLayerTypeMap,players);
+        groupDTOs = MapDTOtoClass(groupDTOGroupTypeMap,groups);
+
         try{
             objectMapper.writeValue(new File("Data/joinRequests.json"),joinRequestDTOs);
+            objectMapper.writeValue(new File("Data/users.json"),playerDTOs);
+            objectMapper.writeValue(new File("Data/groups.json"),groupDTOs);
+
+
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());

@@ -43,7 +43,6 @@ public class Application {
     }
 
     public void Close(ConfigurableApplicationContext ctx){
-        //meg kell hívni az adat kiiratast, es user eltavolitast!!!
         gameClubService.CloseService();
         ctx.close();
     }
