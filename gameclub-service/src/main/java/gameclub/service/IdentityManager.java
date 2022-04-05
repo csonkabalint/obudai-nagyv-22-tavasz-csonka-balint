@@ -20,4 +20,7 @@ public class IdentityManager {
         return currentPLayer.getRoles().stream().anyMatch(r -> r.toString().equals(role.toUpperCase()));
     }
 
+    public long GetID(){
+        return currentPLayer.getId();
+    }
 }
