@@ -42,7 +42,7 @@ public class ConsoleView {
 
     // Menu
 
-    String groupAdminMenu = "Here are the possible actions:\n1. View list of all games\n2. Add my game\n3. Create Join request\n4. Handle Join request\n5. Quit application\nPlease choose an item:b";
+    String groupAdminMenu = "Here are the possible actions:\n1. View list of all games\n2. Add my game\n3. Create Join request\n4. Handle Join request\n5. Quit application\nPlease choose an item: ";
     String playerMenu = "Here are the possible actions:\n1. View list of all games\n2. Add my game\n3. Create Join request\n4. Quit application\nPlease choose an item: ";
 
     public int PLayerMenu(){

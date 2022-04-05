@@ -63,6 +63,15 @@ public class GameClubService {
         return joinRequestsList;
     }
 
+    public HashMap<Long, String> ListJoinRequestsForGroupAdmin(long adminID){
+        HashMap<Long, String> joinRequestsList = new HashMap<>();
+        for (var joinRequest : (dataStore.GetJoinRequests().stream().filter(r ->
+                dataStore.GetGroups().stream().filter(g -> g.getAdmin().getId() == adminID).anyMatch(g ->g.getId() == r.getGroup().getId())).toArray())){
+            joinRequestsList.put(((JoinRequest)joinRequest).getPlayer().getId(),((JoinRequest)joinRequest).getPlayer().getName());
+        }
+        return joinRequestsList;
+    }
+
     public void CreateJoinRequest(long groupID){
         dataStore.CreateJoinRequest(groupID,identityManager.getCurrentPLayer().getId());
     }

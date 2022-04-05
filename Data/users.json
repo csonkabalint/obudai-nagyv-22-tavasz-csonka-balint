@@ -39,5 +39,13 @@
     "email": "a@gmail.com",
     "roles": ["PLAYER"],
     "games": [2]
+  },
+  { "id": 6,
+    "loginName": "janika",
+    "password": "janika1",
+    "name": "Bodrogi János",
+    "email": "janiabodrogon@gmail.com",
+    "roles": ["GROUP_ADMIN", "PLAYER"],
+    "games": [2]
   }
 ]

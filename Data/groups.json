@@ -4,5 +4,11 @@
     "name": "Óbudai Informatika Játék Csoport",
     "admin": 2,
     "members": [3]
+  },
+  {
+    "id": 2,
+    "name": "Vácrátóti Gammás Csoport",
+    "admin": 6,
+    "members": [1]
   }
 ]

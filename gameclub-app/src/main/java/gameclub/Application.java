@@ -4,7 +4,6 @@ import gameclub.service.GameClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -62,7 +61,7 @@ public class Application {
     }
 
     public void Menu(ConfigurableApplicationContext ctx){
-        if(gameClubService.identityManager.authorizeAs("GROUPADMIN")){
+        if(gameClubService.identityManager.authorizeAs("GROUP_ADMIN")){
             GroupAdminMenu(ctx);
         }
         else if(gameClubService.identityManager.authorizeAs("PLAYER")){
@@ -111,7 +110,7 @@ public class Application {
                 gameClubService.CreateJoinRequest(groupID);
                 break;
             case 4:
-                String reqAnswer = consoleView.HandleRequests(gameClubService.ListJoinRequests());
+                String reqAnswer = consoleView.HandleRequests(gameClubService.ListJoinRequestsForGroupAdmin(gameClubService.identityManager.GetID()));
                 gameClubService.EvaluateJoinRequest(reqAnswer);
                 break;
             case 5:
