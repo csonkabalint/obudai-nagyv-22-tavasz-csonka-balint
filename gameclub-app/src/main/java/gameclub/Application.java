@@ -1,8 +1,10 @@
 package gameclub;
 
 import gameclub.service.GameClubService;
+import gameclub.service.NoUserFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ExitCodeGenerator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -37,26 +39,32 @@ public class Application {
     }
 
     public void Play(ConfigurableApplicationContext ctx){
-        Login();
+        Login(ctx);
         Menu(ctx);
         Close(ctx);
     }
 
     public void Close(ConfigurableApplicationContext ctx){
         gameClubService.CloseService();
-        ctx.close();
+        int exitCode = SpringApplication.exit(ctx, () -> 0);
+        System.exit(exitCode);
     }
 
-    public void Login(){
+    public void Login(ConfigurableApplicationContext ctx){
         String loginName = consoleView.LoginName();
         String loginPassword = consoleView.LoginPassword();
-
-        if (gameClubService.VerifyLogin(loginName, loginPassword)){
-            gameClubService.SetCurrentPLayer(loginName, loginPassword);
-            consoleView.LoginSuccess(gameClubService.identityManager.getCurrentPLayer().getRoles().toString());
+        try {
+            if (gameClubService.VerifyLogin(loginName, loginPassword)) {
+                gameClubService.SetCurrentPLayer(loginName, loginPassword);
+                consoleView.LoginSuccess(gameClubService.identityManager.getCurrentPLayer().getRoles().toString());
+            } else {
+                consoleView.LoginFailure();
+            }
         }
-        else{
+        catch (NoUserFoundException ex){
             consoleView.LoginFailure();
+            consoleView.PrintException(ex.getMessage());
+            Close(ctx);
         }
     }
 

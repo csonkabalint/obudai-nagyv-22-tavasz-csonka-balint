@@ -19,13 +19,13 @@ public class GameClubService {
     @Autowired
     public IdentityManager identityManager;
 
-    public boolean VerifyLogin(String loginName, String loginPassword) {
+    public boolean VerifyLogin(String loginName, String loginPassword) throws NoUserFoundException {
 
         if (dataStore.GetPlayer(loginName) != null && dataStore.GetPlayer(loginName).getPassword().equals(loginPassword)){
             return true;
         }
         else{
-            return false;
+            throw new NoUserFoundException("No such User found");
         }
     }
 
@@ -104,3 +104,4 @@ public class GameClubService {
     }
 
 }
+

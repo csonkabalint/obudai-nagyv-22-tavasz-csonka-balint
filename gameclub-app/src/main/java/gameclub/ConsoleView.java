@@ -121,4 +121,8 @@ public class ConsoleView {
         return input;
     }
 
+    public void PrintException(String exceptionMessage){
+        System.out.println(exceptionMessage);
+    }
+
 }

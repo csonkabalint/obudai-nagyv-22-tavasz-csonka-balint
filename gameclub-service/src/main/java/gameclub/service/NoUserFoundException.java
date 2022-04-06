@@ -1,2 +1,7 @@
-package gameclub.service;public class NoUserFoundException {
+package gameclub.service;
+
+public class NoUserFoundException extends Exception {
+    public NoUserFoundException(String message) {
+        super(message);
+    }
 }
