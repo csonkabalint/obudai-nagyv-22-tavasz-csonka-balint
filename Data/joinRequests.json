@@ -1,1 +1,13 @@
-[{"state":"REQUESTED","groupId":1,"userId":4},{"state":"REQUESTED","groupId":1,"userId":6},{"state":"REQUESTED","groupId":2,"userId":2}]
+[ {
+  "state" : "REQUESTED",
+  "groupId" : 1,
+  "userId" : 4
+}, {
+  "state" : "REQUESTED",
+  "groupId" : 1,
+  "userId" : 6
+}, {
+  "state" : "REQUESTED",
+  "groupId" : 2,
+  "userId" : 2
+} ]

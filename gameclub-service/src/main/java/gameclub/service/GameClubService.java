@@ -7,6 +7,8 @@ import gameclub.domain.JoinRequestState;
 import gameclub.persistence.DataStore;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.HashMap;
 
 
@@ -39,6 +41,14 @@ public class GameClubService {
             gameList.put(game.getId(),game.getName());
         }
         return gameList;
+    }
+
+    public ArrayList<String> ListGameDescriptions(){
+        ArrayList<String> desc = new ArrayList<>();
+        for(Game game : dataStore.GetGames()){
+            desc.add(game.toString());
+        }
+        return desc;
     }
 
     public void AddGame(long gameID){

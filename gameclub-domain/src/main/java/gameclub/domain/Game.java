@@ -71,6 +71,17 @@ public class Game {
     public Game() {
     }
 
+    @Override
+    public String toString(){
+        return "-\t id: " + id +
+                "\n\t name: " + name +
+                "\n\t description: " + description  +
+                "\n\t categories: "  + categories.toString() +
+                "\n\t minimum age: " + minimumAge +
+                "\n\t number of players: " + numberOfPlayers.getMin() + "-" + numberOfPlayers.getMax() +
+                "\n\t play time: " + playTime.getMin() + "-" + playTime.getMax();
+    }
+
     enum Category{
         FANTASY,
         MYTHOLOGY,

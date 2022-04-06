@@ -59,8 +59,10 @@ public class ConsoleView {
 
     // SubMenus
 
-    public void ListAllGames(){
-        System.out.println("not ready");
+    public void ListAllGames(ArrayList<String> gameDescriptions){
+        for (String desc: gameDescriptions) {
+            System.out.println(desc);
+        }
     }
 
     String gameListHeader = "Please choose a game from the following list add: ";

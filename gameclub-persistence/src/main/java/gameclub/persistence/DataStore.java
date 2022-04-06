@@ -147,11 +147,10 @@ public class DataStore {
         groupDTOs = MapDTOtoClass(groupDTOGroupTypeMap,groups);
 
         try{
-            objectMapper.writeValue(new File("Data/joinRequests.json"),joinRequestDTOs);
-            objectMapper.writeValue(new File("Data/users.json"),playerDTOs);
-            objectMapper.writeValue(new File("Data/groups.json"),groupDTOs);
-
-
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("Data/joinRequests.json"),joinRequestDTOs);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("Data/users.json"),playerDTOs);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("Data/groups.json"),groupDTOs);
+            objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("Data/games.json"),games);
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());

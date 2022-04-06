@@ -83,7 +83,7 @@ public class Application {
         switch(choice) {
 
             case 1:
-                consoleView.ListAllGames();
+                consoleView.ListAllGames(gameClubService.ListGameDescriptions());
                 break;
             case 2:
                 long gameID = consoleView.AddGame(gameClubService.ListGames());
@@ -107,7 +107,7 @@ public class Application {
         switch(choice) {
 
             case 1:
-                consoleView.ListAllGames();
+                consoleView.ListAllGames(gameClubService.ListGameDescriptions());
                 break;
             case 2:
                 long gameID = consoleView.AddGame(gameClubService.ListGames());
