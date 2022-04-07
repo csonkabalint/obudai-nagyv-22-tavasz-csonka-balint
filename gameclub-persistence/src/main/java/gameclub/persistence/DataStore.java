@@ -98,8 +98,6 @@ public class DataStore {
             groups = MapDTOtoClass(groupGroupDTOTypeMap,groupDTOs);
             joinRequestDTOs = objectMapper.readValue(new File("Data/joinRequests.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, JoinRequestDTO.class));
             joinRequests = MapDTOtoClass(joinRequestJoinRequestDTOTypeMap,joinRequestDTOs);
-            //events = objectMapper.readValue(new File("Data/users.json"), objectMapper.getTypeFactory().constructCollectionType(ArrayList.class, Event.class));
-
         }
         catch (Exception ex){
             System.out.println("error message: " + ex.getMessage());
@@ -155,7 +153,6 @@ public class DataStore {
         catch (Exception ex){
             System.out.println(ex.getMessage());
         }
-        System.out.println("data saved");
     }
 
     // CRUD
