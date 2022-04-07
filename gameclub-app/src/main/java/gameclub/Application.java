@@ -34,23 +34,22 @@ public class Application {
     @Bean
     public CommandLineRunner commandLineRunner(ConfigurableApplicationContext ctx) {
         return args -> {
-            application.Play(ctx);
+            application.Play();
         };
     }
 
-    public void Play(ConfigurableApplicationContext ctx){
-        Login(ctx);
-        Menu(ctx);
-        Close(ctx);
+    public void Play(){
+        Login();
+        Menu();
+        Close();
     }
 
-    public void Close(ConfigurableApplicationContext ctx){
+    public void Close(){
         gameClubService.CloseService();
-        int exitCode = SpringApplication.exit(ctx, () -> 0);
-        System.exit(exitCode);
+        System.exit(0);
     }
 
-    public void Login(ConfigurableApplicationContext ctx){
+    public void Login(){
         String loginName = consoleView.LoginName();
         String loginPassword = consoleView.LoginPassword();
         try {
@@ -64,20 +63,20 @@ public class Application {
         catch (NoUserFoundException ex){
             consoleView.LoginFailure();
             consoleView.PrintException(ex.getMessage());
-            Close(ctx);
+            Close();
         }
     }
 
-    public void Menu(ConfigurableApplicationContext ctx){
+    public void Menu(){
         if(gameClubService.identityManager.AuthorizeAs("GROUP_ADMIN")){
-            GroupAdminMenu(ctx);
+            GroupAdminMenu();
         }
         else if(gameClubService.identityManager.AuthorizeAs("PLAYER")){
-            PlayerMenu(ctx);
+            PlayerMenu();
         }
     }
 
-    private void PlayerMenu(ConfigurableApplicationContext ctx){
+    private void PlayerMenu(){
         int choice = consoleView.PLayerMenu();
 
         switch(choice) {
@@ -101,7 +100,7 @@ public class Application {
         }
     }
 
-    private void GroupAdminMenu(ConfigurableApplicationContext ctx){
+    private void GroupAdminMenu(){
         int choice = consoleView.GroupAdminMenu();
 
         switch(choice) {
