@@ -16,7 +16,6 @@ bin/
 build/
 .gradle
 .gradletasknamecache
-*.lock
 gradle-app.setting
 !gradle-wrapper.jar
 
