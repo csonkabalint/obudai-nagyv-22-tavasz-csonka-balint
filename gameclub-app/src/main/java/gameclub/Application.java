@@ -11,7 +11,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 
 
-@ComponentScan(basePackages =  {"gameclub", "gameclub.service", "gameclub.persistence"})
+@ComponentScan(basePackages = "gameclub")
 public class Application {
 
 
