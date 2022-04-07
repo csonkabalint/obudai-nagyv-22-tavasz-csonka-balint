@@ -1,6 +1,5 @@
 package gameclub.domain;
 
-import java.nio.file.attribute.GroupPrincipal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 

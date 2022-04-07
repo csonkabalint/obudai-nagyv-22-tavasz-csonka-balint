@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Player extends User {
 
-    //ArrayList<Game> games;
     ArrayList<Game> games;
 
     public ArrayList<Game> getGames() {

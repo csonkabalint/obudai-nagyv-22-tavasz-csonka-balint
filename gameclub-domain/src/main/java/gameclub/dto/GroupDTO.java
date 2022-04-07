@@ -1,10 +1,10 @@
 package gameclub.dto;
 
 import gameclub.domain.Event;
-
 import java.util.ArrayList;
 
 public class GroupDTO {
+
     long id;
     String name;
     long admin;
