@@ -69,10 +69,14 @@ public class Application {
 
     public void Menu(){
         if(gameClubService.identityManager.AuthorizeAs("GROUP_ADMIN")){
-            GroupAdminMenu();
+            while (true){
+                GroupAdminMenu();
+            }
         }
         else if(gameClubService.identityManager.AuthorizeAs("PLAYER")){
-            PlayerMenu();
+            while (true){
+                PlayerMenu();
+            }
         }
     }
 
@@ -93,8 +97,8 @@ public class Application {
                 gameClubService.CreateJoinRequest(groupID);
                 break;
             case 4:
-                /*consoleView.Close();
-                Close(ctx);*/
+                consoleView.Close();
+                Close();
             default:
                 break;
         }
@@ -121,8 +125,8 @@ public class Application {
                 gameClubService.EvaluateJoinRequest(reqAnswer);
                 break;
             case 5:
-                /*consoleView.Close();
-                Close(ctx);*/
+                consoleView.Close();
+                Close();
             default:
                 break;
         }
