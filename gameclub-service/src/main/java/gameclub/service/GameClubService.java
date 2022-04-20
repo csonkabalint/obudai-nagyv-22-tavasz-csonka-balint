@@ -4,7 +4,7 @@ import gameclub.domain.Game;
 import gameclub.domain.Group;
 import gameclub.domain.JoinRequest;
 import gameclub.domain.JoinRequestState;
-import gameclub.persistence.DataStore;
+import gameclub.persistence.GameRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -15,12 +15,17 @@ import java.util.HashMap;
 public class GameClubService {
 
     @Autowired
-    private DataStore dataStore;
+    private GameRepository gameRepository;
+
 
     @Autowired
     public IdentityManager identityManager;
 
-    public boolean VerifyLogin(String loginName, String loginPassword) throws NoUserFoundException {
+    public void test(){
+        System.out.println( gameRepository.count());
+    }
+
+    /*public boolean VerifyLogin(String loginName, String loginPassword) throws NoUserFoundException {
 
         if (dataStore.GetPlayer(loginName) != null && dataStore.GetPlayer(loginName).getPassword().equals(loginPassword)){
             return true;
@@ -110,7 +115,7 @@ public class GameClubService {
     public void CloseService(){
         identityManager.currentPLayer = null;
         dataStore.SaveChangesToJson();
-    }
+    }*/
 
 }
 

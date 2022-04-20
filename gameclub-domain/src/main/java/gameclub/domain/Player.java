@@ -1,20 +1,22 @@
 package gameclub.domain;
 
-import java.util.ArrayList;
+import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
+import java.util.List;
 
+@Entity
 public class Player extends User {
 
-    ArrayList<Game> games;
+    @ManyToMany
+    List<Game> games;
 
-    public ArrayList<Game> getGames() {
+   public List<Game> getGames() {
         return games;
     }
 
-    public void setGames(ArrayList<Game> games) {
+    public void setGames(List<Game> games) {
         this.games = games;
     }
 
-    public Player() {
 
-    }
 }

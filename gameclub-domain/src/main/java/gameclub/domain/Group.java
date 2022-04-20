@@ -1,14 +1,27 @@
 package gameclub.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
+@Table(name = "group_table")
 public class Group {
 
+    @Id
+    @GeneratedValue
     long id;
+
     String name;
-    User admin;
-    ArrayList<Player> members;
-    ArrayList<Event> events;
+    //Player admin;
+    @OneToOne
+    Player admin;
+
+    @ManyToMany
+    List<Player> members;
+
+    @OneToMany
+    List<Event> events;
 
     public long getId() {
         return id;
@@ -26,27 +39,27 @@ public class Group {
         this.name = name;
     }
 
-    public User getAdmin() {
+   public Player getAdmin() {
         return admin;
     }
 
-    public void setAdmin(User admin) {
+    public void setAdmin(Player admin) {
         this.admin = admin;
     }
 
-    public ArrayList<Player> getMembers() {
+    public List<Player> getMembers() {
         return members;
     }
 
-    public void setMembers(ArrayList<Player> members) {
+    public void setMembers(List<Player> members) {
         this.members = members;
     }
 
-    public ArrayList<Event> getEvents() {
+    public List<Event> getEvents() {
         return events;
     }
 
-    public void setEvents(ArrayList<Event> events) {
+    public void setEvents(List<Event> events) {
         this.events = events;
     }
 

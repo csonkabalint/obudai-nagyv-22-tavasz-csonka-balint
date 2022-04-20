@@ -1,14 +1,24 @@
 package gameclub.domain;
 
+import javax.persistence.ElementCollection;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
 import java.util.ArrayList;
 
+@MappedSuperclass
 public class User {
 
+    @Id
+    @GeneratedValue
     long id;
+
     String loginName;
     String name;
     String password;
     String email;
+
+    //@ElementCollection
     ArrayList<Role> roles;
 
     public long getId() {
@@ -58,13 +68,5 @@ public class User {
     public void setRoles(ArrayList<Role> roles) {
         this.roles = roles;
     }
-
-    public User() {
-    }
-
-    public enum Role{
-        SUPERUSER,
-        GROUP_ADMIN,
-        PLAYER
-    }
 }
+

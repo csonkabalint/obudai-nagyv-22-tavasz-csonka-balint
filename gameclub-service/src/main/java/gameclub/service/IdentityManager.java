@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class IdentityManager {
 
-    public Player currentPLayer;
+    /*public Player currentPLayer;
 
     public Player getCurrentPLayer() {
         return currentPLayer;
@@ -22,5 +22,5 @@ public class IdentityManager {
 
     public long GetID(){
         return currentPLayer.getId();
-    }
+    }*/
 }

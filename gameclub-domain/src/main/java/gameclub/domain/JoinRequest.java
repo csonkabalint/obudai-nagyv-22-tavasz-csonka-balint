@@ -1,10 +1,24 @@
 package gameclub.domain;
 
+import javax.persistence.*;
+
+
+@Entity
 public class JoinRequest {
 
+   /* @Id
+    @GeneratedValue
+    long id;*/
+
+    @Id
+    JoinRequestId id;
+
     JoinRequestState state;
+
+    /*@OneToOne
     Group group;
-    Player player;
+    @OneToOne
+    Player player;*/
 
     public JoinRequestState getState() {
         return state;
@@ -14,7 +28,7 @@ public class JoinRequest {
         this.state = state;
     }
 
-    public Group getGroup() {
+   /* public Group getGroup() {
         return group;
     }
 
@@ -37,6 +51,6 @@ public class JoinRequest {
         this.state = state;
         this.group = group;
         this.player = player;
-    }
+    }*/
 }
 

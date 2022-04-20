@@ -5,6 +5,7 @@ import gameclub.service.NoUserFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 
 
 @ComponentScan(basePackages = "gameclub")
+@SpringBootApplication
 public class Application {
 
 
@@ -38,12 +40,14 @@ public class Application {
     }
 
     public void Play(){
-        Login();
+        System.out.println("running");
+        gameClubService.test();
+       /* Login();
         Menu();
-        Close();
+        Close();*/
     }
 
-    public void Close(){
+    /*public void Close(){
         gameClubService.CloseService();
         System.exit(0);
     }
@@ -129,5 +133,5 @@ public class Application {
             default:
                 break;
         }
-    }
+    }*/
 }

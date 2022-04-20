@@ -1,16 +1,34 @@
 package gameclub.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Game {
 
+    @Id
+    @GeneratedValue
     long id;
-    String name;
+
+   String name;
+
     String description;
+
     int minimumAge;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "min", column = @Column(name = "MIN_LENGTH")),
+            @AttributeOverride(name = "max", column = @Column(name = "MAX_LENGTH"))
+    })
     Limits playTime;
+
+    @Embedded
     Limits numberOfPlayers;
-    ArrayList<Category> categories;
+
+    @ElementCollection
+    List<Category> categories;
 
     public long getId() {
         return id;
@@ -60,11 +78,11 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public ArrayList<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
@@ -82,11 +100,6 @@ public class Game {
                 "\n\t play time: " + playTime.getMin() + "-" + playTime.getMax();
     }
 
-    enum Category{
-        FANTASY,
-        MYTHOLOGY,
-        WAR,
-        STRATEGY,
-        BUILDING
-    }
+
 }
+
