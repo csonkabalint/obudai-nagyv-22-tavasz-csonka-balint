@@ -35,7 +35,8 @@ public class Application {
     @Bean
     public CommandLineRunner commandLineRunner(ConfigurableApplicationContext ctx) {
         return args -> {
-            application.Play();
+            System.out.println("running");
+            //application.Play();
         };
     }
 
