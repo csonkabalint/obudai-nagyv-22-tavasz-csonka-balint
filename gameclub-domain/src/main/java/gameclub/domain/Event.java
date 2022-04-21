@@ -1,14 +1,25 @@
 package gameclub.domain;
 
+import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Event {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
+
     LocalDateTime date;
+
     String place;
-    ArrayList<Player> participants;
+
+    @ManyToMany
+    List<Player> participants;
+
+    @OneToOne
     Group group;
 
     public long getId() {
@@ -35,11 +46,11 @@ public class Event {
         this.place = place;
     }
 
-    public ArrayList<Player> getParticipants() {
+    public List<Player> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(ArrayList<Player> participants) {
+    public void setParticipants(List<Player> participants) {
         this.participants = participants;
     }
 

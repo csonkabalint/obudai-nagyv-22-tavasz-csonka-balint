@@ -5,6 +5,7 @@ import gameclub.service.NoUserFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,6 +13,7 @@ import org.springframework.context.annotation.Lazy;
 
 
 @ComponentScan(basePackages = "gameclub")
+@SpringBootApplication
 public class Application {
 
 
@@ -38,6 +40,12 @@ public class Application {
     }
 
     public void Play(){
+        System.out.println("running");
+        try {
+        System.out.println(gameClubService.VerifyLogin("nagys","ns-secret"));}
+        catch (Exception ex){
+            System.out.println("failed");
+        }
         Login();
         Menu();
         Close();

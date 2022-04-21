@@ -1,16 +1,39 @@
 package gameclub.domain;
 
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
+@Entity
 public class Game {
 
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
+
     String name;
+
+    @Column(name="description",columnDefinition="LONGTEXT")
     String description;
+
     int minimumAge;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "min", column = @Column(name = "MIN_LENGTH")),
+            @AttributeOverride(name = "max", column = @Column(name = "MAX_LENGTH"))
+    })
     Limits playTime;
+
+    @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "min", column = @Column(name = "MIN_PLAYER")),
+            @AttributeOverride(name = "max", column = @Column(name = "MAX_PLAYER"))
+    })
     Limits numberOfPlayers;
-    ArrayList<Category> categories;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    List<Category> categories;
 
     public long getId() {
         return id;
@@ -60,15 +83,24 @@ public class Game {
         this.numberOfPlayers = numberOfPlayers;
     }
 
-    public ArrayList<Category> getCategories() {
+    public List<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
+    public void setCategories(List<Category> categories) {
         this.categories = categories;
     }
 
     public Game() {
+    }
+
+    public Game(String name, String description, int minimumAge, Limits playTime, Limits numberOfPlayers, List<Category> categories) {
+        this.name = name;
+        this.description = description;
+        this.minimumAge = minimumAge;
+        this.playTime = playTime;
+        this.numberOfPlayers = numberOfPlayers;
+        this.categories = categories;
     }
 
     @Override
@@ -82,11 +114,6 @@ public class Game {
                 "\n\t play time: " + playTime.getMin() + "-" + playTime.getMax();
     }
 
-    enum Category{
-        FANTASY,
-        MYTHOLOGY,
-        WAR,
-        STRATEGY,
-        BUILDING
-    }
+
 }
+

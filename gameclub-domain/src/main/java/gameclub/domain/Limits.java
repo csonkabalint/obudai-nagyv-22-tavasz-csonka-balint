@@ -1,5 +1,8 @@
 package gameclub.domain;
 
+import javax.persistence.Embeddable;
+
+@Embeddable
 public class Limits {
 
     int min;
