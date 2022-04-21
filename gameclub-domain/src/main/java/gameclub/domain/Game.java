@@ -8,11 +8,12 @@ import java.util.List;
 public class Game {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
 
-   String name;
+    String name;
 
+    @Column(name="description",columnDefinition="LONGTEXT")
     String description;
 
     int minimumAge;
@@ -25,9 +26,13 @@ public class Game {
     Limits playTime;
 
     @Embedded
+    @AttributeOverrides({
+            @AttributeOverride(name = "min", column = @Column(name = "MIN_PLAYER")),
+            @AttributeOverride(name = "max", column = @Column(name = "MAX_PLAYER"))
+    })
     Limits numberOfPlayers;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     List<Category> categories;
 
     public long getId() {
@@ -89,6 +94,10 @@ public class Game {
     public Game() {
     }
 
+    public Game(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString(){
         return "-\t id: " + id +
@@ -100,6 +109,13 @@ public class Game {
                 "\n\t play time: " + playTime.getMin() + "-" + playTime.getMax();
     }
 
-
+    public Game(String name, String description, int minimumAge, Limits playTime, Limits numberOfPlayers, List<Category> categories) {
+        this.name = name;
+        this.description = description;
+        this.minimumAge = minimumAge;
+        this.playTime = playTime;
+        this.numberOfPlayers = numberOfPlayers;
+        this.categories = categories;
+    }
 }
 

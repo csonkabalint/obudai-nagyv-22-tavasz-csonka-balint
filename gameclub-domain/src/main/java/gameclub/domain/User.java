@@ -1,16 +1,14 @@
 package gameclub.domain;
 
-import javax.persistence.ElementCollection;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.List;
 
 @MappedSuperclass
 public class User {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     long id;
 
     String loginName;
@@ -18,8 +16,8 @@ public class User {
     String password;
     String email;
 
-    //@ElementCollection
-    ArrayList<Role> roles;
+    @ElementCollection(fetch=FetchType.EAGER)
+    List<Role> roles;
 
     public long getId() {
         return id;
@@ -61,12 +59,23 @@ public class User {
         this.email = email;
     }
 
-    public ArrayList<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(ArrayList<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
+    }
+
+    public User(String loginName, String name, String password, String email, List<Role> roles) {
+        this.loginName = loginName;
+        this.name = name;
+        this.password = password;
+        this.email = email;
+        this.roles = roles;
+    }
+
+    public User() {
     }
 }
 

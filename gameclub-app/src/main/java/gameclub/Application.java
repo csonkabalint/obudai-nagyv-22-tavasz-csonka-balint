@@ -41,13 +41,17 @@ public class Application {
 
     public void Play(){
         System.out.println("running");
-        gameClubService.test();
-       /* Login();
+        try {
+        System.out.println(gameClubService.VerifyLogin("nagys","ns-secret"));}
+        catch (Exception ex){
+            System.out.println("failed");
+        }
+        Login();
         Menu();
-        Close();*/
+        Close();
     }
 
-    /*public void Close(){
+    public void Close(){
         gameClubService.CloseService();
         System.exit(0);
     }
@@ -133,5 +137,5 @@ public class Application {
             default:
                 break;
         }
-    }*/
+    }
 }

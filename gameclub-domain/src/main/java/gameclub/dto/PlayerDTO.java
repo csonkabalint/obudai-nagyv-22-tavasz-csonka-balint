@@ -3,7 +3,7 @@ package gameclub.dto;
 import gameclub.domain.User;
 import java.util.ArrayList;
 
-public class PlayerDTO extends User {
+/*public class PlayerDTO extends User {
 
     ArrayList<Long> games;
 
@@ -18,4 +18,4 @@ public class PlayerDTO extends User {
     public PlayerDTO() {
 
     }
-}
+}*/

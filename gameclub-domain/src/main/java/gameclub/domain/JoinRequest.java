@@ -6,10 +6,6 @@ import javax.persistence.*;
 @Entity
 public class JoinRequest {
 
-   /* @Id
-    @GeneratedValue
-    long id;*/
-
     @Id
     JoinRequestId id;
 
@@ -28,29 +24,32 @@ public class JoinRequest {
         this.state = state;
     }
 
-   /* public Group getGroup() {
-        return group;
+   public Group getGroup() {
+        return id.getGroup();
     }
 
     public void setGroup(Group group) {
-        this.group = group;
+        this.id.setGroup(group);
     }
 
     public Player getPlayer() {
-        return player;
+        return id.getPlayer();
     }
 
     public void setPlayer(Player player) {
-        this.player = player;
+        this.id.setPlayer(player);
     }
 
     public JoinRequest() {
     }
 
     public JoinRequest(JoinRequestState state, Group group, Player player) {
+        id = new JoinRequestId();
         this.state = state;
-        this.group = group;
-        this.player = player;
-    }*/
+        this.id.setGroup(group);
+        this.id.setPlayer(player);
+    }
+
+
 }
 

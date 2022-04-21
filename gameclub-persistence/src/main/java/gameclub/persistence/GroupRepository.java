@@ -1,16 +1,14 @@
 package gameclub.persistence;
 
-
 import gameclub.domain.Game;
-import gameclub.domain.JoinRequest;
+import gameclub.domain.Group;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
 
 
-public interface GameRepository extends CrudRepository<Game, Long> {
+public interface GroupRepository extends CrudRepository<Group, Long> {
 
-    public List<Game> findAll();
-
+    public List<Group> findAll();
 
 }

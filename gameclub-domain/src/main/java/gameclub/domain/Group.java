@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "group_table")
+@Table(name = "groups")
 public class Group {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     long id;
 
     String name;
@@ -64,5 +64,12 @@ public class Group {
     }
 
     public Group() {
+    }
+
+    public Group(String name, Player admin, List<Player> members, List<Event> events) {
+        this.name = name;
+        this.admin = admin;
+        this.members = members;
+        this.events = events;
     }
 }
