@@ -3,4 +3,5 @@ include 'gameclub-app'
 include 'gameclub-domain'
 include 'gameclub-persistence'
 include 'gameclub-service'
+include 'gameclub-web'
 
