@@ -12,8 +12,11 @@ public class User {
     long id;
 
     String loginName;
+
     String name;
+
     String password;
+
     String email;
 
     @ElementCollection(fetch=FetchType.EAGER)
@@ -67,6 +70,9 @@ public class User {
         this.roles = roles;
     }
 
+    public User() {
+    }
+
     public User(String loginName, String name, String password, String email, List<Role> roles) {
         this.loginName = loginName;
         this.name = name;
@@ -75,7 +81,6 @@ public class User {
         this.roles = roles;
     }
 
-    public User() {
-    }
+
 }
 

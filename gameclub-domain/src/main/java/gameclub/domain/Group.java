@@ -13,7 +13,7 @@ public class Group {
     long id;
 
     String name;
-    //Player admin;
+
     @OneToOne
     Player admin;
 
@@ -39,7 +39,7 @@ public class Group {
         this.name = name;
     }
 
-   public Player getAdmin() {
+    public Player getAdmin() {
         return admin;
     }
 

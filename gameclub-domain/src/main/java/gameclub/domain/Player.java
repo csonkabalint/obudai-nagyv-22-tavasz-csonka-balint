@@ -15,15 +15,6 @@ public class Player extends User {
     @LazyCollection(LazyCollectionOption.FALSE)
     List<Game> games;
 
-    public Player(String loginName, String name, String password, String email, List<Role> roles, List<Game> games) {
-        super(loginName, name, password, email, roles);
-        this.games = games;
-    }
-
-    public Player() {
-
-    }
-
     public List<Game> getGames() {
         return games;
     }
@@ -32,6 +23,13 @@ public class Player extends User {
         this.games = games;
     }
 
+    public Player(String loginName, String name, String password, String email, List<Role> roles, List<Game> games) {
+        super(loginName, name, password, email, roles);
+        this.games = games;
+    }
 
+    public Player() {
+
+    }
 
 }

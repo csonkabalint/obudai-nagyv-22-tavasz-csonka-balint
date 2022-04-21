@@ -13,6 +13,7 @@ public class Event {
     long id;
 
     LocalDateTime date;
+
     String place;
 
     @ManyToMany

@@ -94,8 +94,13 @@ public class Game {
     public Game() {
     }
 
-    public Game(String name) {
+    public Game(String name, String description, int minimumAge, Limits playTime, Limits numberOfPlayers, List<Category> categories) {
         this.name = name;
+        this.description = description;
+        this.minimumAge = minimumAge;
+        this.playTime = playTime;
+        this.numberOfPlayers = numberOfPlayers;
+        this.categories = categories;
     }
 
     @Override
@@ -109,13 +114,6 @@ public class Game {
                 "\n\t play time: " + playTime.getMin() + "-" + playTime.getMax();
     }
 
-    public Game(String name, String description, int minimumAge, Limits playTime, Limits numberOfPlayers, List<Category> categories) {
-        this.name = name;
-        this.description = description;
-        this.minimumAge = minimumAge;
-        this.playTime = playTime;
-        this.numberOfPlayers = numberOfPlayers;
-        this.categories = categories;
-    }
+
 }
 

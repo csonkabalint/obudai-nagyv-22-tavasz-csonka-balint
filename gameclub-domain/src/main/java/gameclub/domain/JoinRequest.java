@@ -11,10 +11,6 @@ public class JoinRequest {
 
     JoinRequestState state;
 
-    /*@OneToOne
-    Group group;
-    @OneToOne
-    Player player;*/
 
     public JoinRequestState getState() {
         return state;
