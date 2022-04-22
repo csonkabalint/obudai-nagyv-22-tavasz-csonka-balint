@@ -10,8 +10,12 @@ public class AppController {
 
     @GetMapping(value = "/")
     public String test(Model model){
-        model.addAttribute("name", "name");
+        addTestAttribute(model);
         return "test";
+    }
+
+    public void addTestAttribute(Model model){
+        model.addAttribute("name", "balint");
     }
 
 }
