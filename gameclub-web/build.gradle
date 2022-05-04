@@ -1,5 +1,8 @@
 
 dependencies {
+    implementation project(':gameclub-domain')
+    implementation project(':gameclub-persistence')
+    implementation project(':gameclub-service')
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.6.6'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-thymeleaf', version: '2.6.6'
     //implementation group: 'org.apache.tomcat.embed', name: 'tomcat-embed-jasper', version: '10.1.0-M14'

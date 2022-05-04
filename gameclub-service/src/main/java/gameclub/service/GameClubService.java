@@ -7,7 +7,9 @@ import gameclub.persistence.JoinRequestRepository;
 import gameclub.persistence.PlayerRepository;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -161,6 +163,11 @@ public class GameClubService {
 
     public void CloseService(){
         identityManager.currentPLayer = null;
+    }
+
+    @ModelAttribute("player")
+    public Player GetTestPlayer(){
+        return playerRepository.findAll().stream().findFirst().orElse(null);
     }
 
 }
