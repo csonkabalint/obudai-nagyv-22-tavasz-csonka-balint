@@ -12,7 +12,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Lazy;
 
 
-@ComponentScan(basePackages = "gameclub")
+/*@ComponentScan(basePackages = "gameclub")
 @SpringBootApplication
 public class Application {
 
@@ -139,4 +139,4 @@ public class Application {
                 break;
         }
     }
-}
+}*/
