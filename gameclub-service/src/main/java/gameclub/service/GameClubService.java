@@ -5,9 +5,8 @@ import gameclub.persistence.GameRepository;
 import gameclub.persistence.GroupRepository;
 import gameclub.persistence.JoinRequestRepository;
 import gameclub.persistence.PlayerRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
@@ -15,7 +14,6 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 
 @Service
@@ -166,8 +164,10 @@ public class GameClubService {
     }
 
     @ModelAttribute("player")
-    public Player GetTestPlayer(){
-        return playerRepository.findAll().stream().findFirst().orElse(null);
+    public Player GetAuthenticatedPlayer(){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Player player = playerRepository.findByLoginName(userDetails.getUsername());
+        return player;
     }
 
 }
