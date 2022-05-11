@@ -14,6 +14,7 @@ import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 
 @Service
@@ -93,6 +94,11 @@ public class GameClubService {
         }
         return gameList;
     }
+
+    public List<Game> GetGameList(){
+        return gameRepository.findAll();
+    }
+
 
    public ArrayList<String> ListGameDescriptions(){
         ArrayList<String> desc = new ArrayList<>();

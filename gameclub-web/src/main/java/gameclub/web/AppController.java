@@ -19,5 +19,12 @@ public class AppController {
         return "home";
     }
 
+    @GetMapping(value = "/games")
+    public String Games(Model model, @ModelAttribute("player")Player player){
+        model.addAttribute("games", gameClubService.GetGameList());
+        return "gamesList";
+    }
+
+
 
 }
