@@ -1,6 +1,7 @@
 package gameclub.service;
 
 import gameclub.domain.*;
+import gameclub.dto.GameDTO;
 import gameclub.persistence.GameRepository;
 import gameclub.persistence.GroupRepository;
 import gameclub.persistence.JoinRequestRepository;
@@ -69,17 +70,9 @@ public class GameClubService {
         System.out.print(playerRepository.count()+ ",");
         System.out.print(groupRepository.count()+ ",");
         System.out.println(joinRequestRepository.count()+ ",");
+
     }
 
-    public boolean VerifyLogin(String loginName, String loginPassword) throws NoUserFoundException {
-
-        if(playerRepository.findByLoginName(loginName).getPassword().equals(loginPassword)){
-            return true;
-        }
-        else{
-            throw new NoUserFoundException("No such User found");
-        }
-    }
 
 
     public void SetCurrentPLayer(String loginName, String loginPassword){
@@ -95,8 +88,13 @@ public class GameClubService {
         return gameList;
     }
 
-    public List<Game> GetGameList(){
-        return gameRepository.findAll();
+
+    public List<GameDTO> GetGameList(){
+        ArrayList<GameDTO> gameDTOList = new ArrayList<>();
+        for (Game game : gameRepository.findAll()){
+            gameDTOList.add(new GameDTO(game));
+        }
+        return gameDTOList;
     }
 
 
@@ -165,9 +163,6 @@ public class GameClubService {
         EvaluateJoinRequest(evaluation,userID);
     }
 
-    public void CloseService(){
-        identityManager.currentPLayer = null;
-    }
 
     @ModelAttribute("player")
     public Player GetAuthenticatedPlayer(){

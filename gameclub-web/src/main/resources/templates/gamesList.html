@@ -23,15 +23,13 @@
                     <th scope="col">Categories</th>
                 </tr>
                 </thead>
-                <tbody>
-
                     <tr th:each="game : ${games}">
                         <td th:text="${game.name}"/>
                         <td th:text="${game.description}"/>
                         <td th:text="${game.minimumAge}"/>
-                        <td>3 - 4</td>
-                        <td>60 - 120 min</td>
-                        <td>Strategy</td>
+                        <td th:text="${game.numberOfPlayersMin + '-' + game.numberOfPlayersMax}"/>
+                        <td th:text="${game.playTimeMin + '-' + game.playTimeMax}"/>
+                        <td th:text="${game.categories}" >
                     </tr>
                 </tbody>
             </table>
