@@ -2,6 +2,8 @@ package gameclub.service;
 
 import gameclub.domain.*;
 import gameclub.dto.GameDTO;
+import gameclub.dto.GroupDTO;
+import gameclub.dto.PlayerRoleDTO;
 import gameclub.persistence.GameRepository;
 import gameclub.persistence.GroupRepository;
 import gameclub.persistence.JoinRequestRepository;
@@ -120,6 +122,27 @@ public class GameClubService {
         return groupList;
     }
 
+    public List<GroupDTO> GetGroupList(){
+        ArrayList<GroupDTO> groupDTOList = new ArrayList<>();
+        for (Group group : groupRepository.findAll()){
+            groupDTOList.add(new GroupDTO(group));
+        }
+        return groupDTOList;
+    }
+
+    public List<GroupDTO> GetUserGroupList(){
+        ArrayList<GroupDTO> groupDTOList = new ArrayList<>();
+        for (Group group : groupRepository.findByMembers(GetAuthenticatedPlayer()) /*groupRepository.findAll().stream().filter(g -> g.getMembers().contains(GetAuthenticatedPlayer()))*/){
+            groupDTOList.add(new GroupDTO(group));
+        }
+        return groupDTOList;
+    }
+
+    public GroupDTO GetGroup(long groupID){
+        GroupDTO group = new GroupDTO(groupRepository.findById(groupID).orElse(null));
+        return group;
+    }
+
    public HashMap<Long, String> ListJoinRequests(){
         HashMap<Long, String> joinRequestsList = new HashMap<>();
         for (JoinRequest joinRequest : joinRequestRepository.findAll()){
@@ -138,8 +161,14 @@ public class GameClubService {
     }
 
     public void CreateJoinRequest(long groupID){
-        joinRequestRepository.save(new JoinRequest(JoinRequestState.REQUESTED,groupRepository.findById(groupID).orElse(null),identityManager.getCurrentPLayer()));
+        /*if(groupRepository.findById(groupID).get().getMembers().contains(GetAuthenticatedPlayer()))
+        {
+
+        }*/
+        joinRequestRepository.save(new JoinRequest(JoinRequestState.REQUESTED,groupRepository.findById(groupID).orElse(null),GetAuthenticatedPlayer()));
+        System.out.println(joinRequestRepository.count()+ ",");
     }
+
 
     public void EvaluateJoinRequest(String evaluation,long userID){
         JoinRequest request = joinRequestRepository.findAll().stream().filter(j -> (j.getPlayer().getId() == userID && j.getGroup().getAdmin().getId() ==
@@ -169,6 +198,28 @@ public class GameClubService {
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         return player;
+    }
+
+
+    //ne hasznald
+    public PlayerRoleDTO GetPlayerRole(){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Role> roles =playerRepository.findByLoginName(userDetails.getUsername()).getRoles();
+        PlayerRoleDTO playerRole = new PlayerRoleDTO(Role.PLAYER);
+        return playerRole;
+    }
+
+    private List<Role> GetPlayerRoles(){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Role> roles =playerRepository.findByLoginName(userDetails.getUsername()).getRoles();
+        return roles;
+    }
+
+    public boolean IsAdmin(){
+        if(GetPlayerRoles().contains(Role.GROUP_ADMIN)){
+            return true;
+        }
+        return false;
     }
 
 }

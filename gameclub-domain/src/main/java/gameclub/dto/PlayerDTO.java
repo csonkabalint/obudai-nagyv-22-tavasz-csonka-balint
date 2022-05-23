@@ -1,21 +1,39 @@
 package gameclub.dto;
 
+import gameclub.domain.Player;
+import gameclub.domain.Role;
 import gameclub.domain.User;
 import java.util.ArrayList;
+import java.util.List;
 
-public class PlayerDTO extends User {
+public class PlayerDTO {
 
-    ArrayList<Long> games;
 
-    public ArrayList<Long> getGames() {
-        return games;
+    String name;
+    String email;
+
+
+    public String getName() {
+        return name;
     }
 
-    public void setGames(ArrayList<Long> games) {
-        this.games = games;
+
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public PlayerDTO() {
 
+    public String getEmail() {
+        return email;
+    }
+
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public PlayerDTO(Player player) {
+        this.name = player.getName();
+        this.email = player.getEmail();
     }
 }

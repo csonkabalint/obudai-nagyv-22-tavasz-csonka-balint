@@ -22,6 +22,9 @@ public class AppController {
     @GetMapping(value = "/games")
     public String Games(Model model){
         model.addAttribute("games", gameClubService.GetGameList());
+        if(gameClubService.IsAdmin()){
+            model.addAttribute("playerrole", "admin");
+        }
         return "gamesList";
     }
 

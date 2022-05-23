@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <div th:insert="menu"></div>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="card border border-info border-3">
+        <div class="card-header bg-info">
+            <h3>User details</h3>
+        </div>
+        <div class="card-body bg-light">
+            <table class="table table-bordered bg-white">
+                <thead>
+                <tr th:each="usergroup : ${usergroups}">
+                    <a th:href="@{/group} + '?groupid=' + ${usergroup.id}" th:text="${usergroup.name}"></a>
+                </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="card border border-info border-3">
+        <div class="card-header bg-info">
+            <h3>Other Groups</h3>
+        </div>
+        <div class="card-body bg-light">
+            <table class="table table-bordered bg-white">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Admin</th>
+                    <th scope="col">No of Members</th>
+                    <th scope="col">Join</th>
+                </tr>
+                </thead>
+                <tr th:each="group : ${groups}">
+                    <td th:text="${group.name}"/>
+                    <td th:text="${group.admin}"/>
+                    <td th:text="${group.noOfMembers}"/>
+                    <td>
+                        <form th:action="@{/createjoinrequest(groupid=${group.id})}" method="post">
+                            <input type="submit" value="Submit">
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>
