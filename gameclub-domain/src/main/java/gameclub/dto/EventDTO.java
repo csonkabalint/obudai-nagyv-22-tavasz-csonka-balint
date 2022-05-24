@@ -12,6 +12,7 @@ public class EventDTO {
     long id;
     String date;
     String location;
+    String description;
     List<String> participants;
 
     public long getId() {
@@ -38,6 +39,14 @@ public class EventDTO {
         this.location = location;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<String> getParticipants() {
         return participants;
     }
@@ -51,6 +60,7 @@ public class EventDTO {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         this.date = event.getDate().format(formatter);
         this.location = event.getPlace();
+        this.description = event.getDescription();
         this.participants = new ArrayList<>();
         for(Player p : event.getParticipants()){
             participants.add(p.getName());
@@ -58,5 +68,6 @@ public class EventDTO {
     }
 
     public EventDTO() {
+        this.participants = new ArrayList<>();
     }
 }

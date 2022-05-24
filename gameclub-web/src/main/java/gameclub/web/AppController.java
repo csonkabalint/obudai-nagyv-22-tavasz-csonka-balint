@@ -16,6 +16,9 @@ public class AppController {
     @GetMapping(value = "/home")
     public String Home(Model model, @ModelAttribute("player")Player player){
         model.addAttribute("logedInPlayer", gameClubService.GetAuthenticatedPlayer());
+        if(gameClubService.IsAdmin()){
+            model.addAttribute("playerrole", "admin");
+        }
         return "home";
     }
 

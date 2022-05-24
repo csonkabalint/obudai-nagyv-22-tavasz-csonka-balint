@@ -16,6 +16,8 @@ public class Event {
 
     String place;
 
+    String description;
+
     @ManyToMany
     List<Player> participants;
 
@@ -46,6 +48,14 @@ public class Event {
         this.place = place;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<Player> getParticipants() {
         return participants;
     }
@@ -69,6 +79,6 @@ public class Event {
     }
 
     public Event(){
-
+        participants = new ArrayList<>();
     }
 }

@@ -49,7 +49,9 @@ public class GroupsController {
 
     @RequestMapping(value = "/addevent", method = RequestMethod.POST)
     public String AddEvent(@ModelAttribute EventDTO event, Model model){
-        gameClubService.AddEvent(event.getLocation());
+        if(event.getLocation().length() > 0 && event.getDescription().length() > 0) {
+            gameClubService.AddEvent(event.getDate(), event.getLocation(), event.getDescription());
+        }
         model.addAttribute("events", gameClubService.GetGroupEvents());
         model.addAttribute("event", new EventDTO());
         return "eventsList";

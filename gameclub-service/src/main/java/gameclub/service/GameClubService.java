@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -231,14 +232,25 @@ public class GameClubService {
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         Group group = groupRepository.findByAdmin(player);
-        //groupRepository.findById(group.getId()).get().AddEvent(new Event(LocalDateTime.now(), location));
         Event event = new Event(LocalDateTime.now(),location);
         eventRepository.save(event);
         group.AddEvent(event);
         groupRepository.save(group);
-        for(Event e : groupRepository.findById(group.getId()).get().getEvents()){
-            System.out.println(e.getPlace() + " " + e.getId());
-        }
+    }
+
+    public void AddEvent(String date, String location, String description) {
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Player player = playerRepository.findByLoginName(userDetails.getUsername());
+        Group group = groupRepository.findByAdmin(player);
+        Event event = new Event();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        //event.setDate(); = event.getDate().format(formatter);
+        event.setDate(LocalDateTime.now());
+        event.setPlace(location);
+        event.setDescription(description);
+        eventRepository.save(event);
+        group.AddEvent(event);
+        groupRepository.save(group);
     }
 
 
@@ -271,6 +283,13 @@ public class GameClubService {
         return false;
     }
 
+    public boolean IsSuperUser(){
+        if(GetPlayerRoles().contains(Role.SUPERUSER)){
+            return true;
+        }
+        return false;
+    }
+
     public GroupDTO GetAdminGroup(){
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
@@ -287,5 +306,7 @@ public class GameClubService {
         }
 
     }
+
+
 }
 
