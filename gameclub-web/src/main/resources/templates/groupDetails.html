@@ -49,6 +49,11 @@
         <tr th:each="event : ${group.events}">
           <td th:text="${event.date}"/>
           <td th:text="${event.location}"/>
+          <td>
+            <form th:action="@{/attend(eventid=${event.id})}" method="post">
+              <input type="submit" value="Attend">
+            </form>
+          </td>
         </tr>
         </tbody>
       </table>

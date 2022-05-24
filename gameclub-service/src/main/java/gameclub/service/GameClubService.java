@@ -278,5 +278,14 @@ public class GameClubService {
         return new GroupDTO(group);
     }
 
+    public void AttendEvent(long eventid) {
+        Player player = GetAuthenticatedPlayer();
+        Event event = eventRepository.findById(eventid).orElse(null);
+        if (!event.getParticipants().contains(player)){
+            event.getParticipants().add(player);
+            eventRepository.save(event);
+        }
+
+    }
 }
 

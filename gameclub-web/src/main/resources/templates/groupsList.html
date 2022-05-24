@@ -9,7 +9,7 @@
 <div class="container">
     <div class="card border border-info border-3">
         <div class="card-header bg-info">
-            <h3>User details</h3>
+            <h3>My group membership</h3>
         </div>
         <div class="card-body bg-light">
             <table class="table table-bordered bg-white">
@@ -41,11 +41,12 @@
                     <td th:text="${group.name}"/>
                     <td th:text="${group.admin}"/>
                     <td th:text="${group.noOfMembers}"/>
-                    <td>
+                    <td th:if="${!group.hasRequested}" >
                         <form th:action="@{/createjoinrequest(groupid=${group.id})}" method="post">
                             <input type="submit" value="Submit">
                         </form>
                     </td>
+                    <td th:if="${group.hasRequested}">Membership requested</td>
                 </tr>
                 </tbody>
             </table>
