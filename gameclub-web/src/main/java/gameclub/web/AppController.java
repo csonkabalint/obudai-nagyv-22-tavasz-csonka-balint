@@ -1,6 +1,7 @@
 package gameclub.web;
 
 import gameclub.domain.Player;
+import gameclub.dto.GameDTO;
 import gameclub.service.GameClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -37,8 +38,10 @@ public class AppController {
     }
 
     @GetMapping(value = "/listgamesform")
-    public String ListGamesForm(){
-        return "";
+    public String ListGamesForm(Model model){
+        model.addAttribute("games", gameClubService.GetGameList());
+        model.addAttribute("game", new GameDTO());
+        return "listGamesForm";
     }
 
     @RequestMapping(value = "/listgamesadd", method = RequestMethod.POST)

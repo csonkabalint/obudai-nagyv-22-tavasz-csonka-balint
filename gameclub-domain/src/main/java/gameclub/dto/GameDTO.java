@@ -102,4 +102,6 @@ public class GameDTO {
             this.categories.add(category.toString());
         }
     }
+
+    public GameDTO(){}
 }
