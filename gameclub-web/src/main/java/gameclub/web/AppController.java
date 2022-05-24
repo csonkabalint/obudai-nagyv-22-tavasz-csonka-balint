@@ -15,22 +15,35 @@ public class AppController {
 
     @GetMapping(value = "/home")
     public String Home(Model model, @ModelAttribute("player")Player player){
-        model.addAttribute("logedInPlayer", gameClubService.GetAuthenticatedPlayer());
-        if(gameClubService.IsAdmin()){
-            model.addAttribute("playerrole", "admin");
+        if(gameClubService.IsSuperUser()){
+            return "redirect:listgamesform";
         }
+        model.addAttribute("logedInPlayer", gameClubService.GetAuthenticatedPlayer());
+        AddRole(model);
         return "home";
     }
 
     @GetMapping(value = "/games")
     public String Games(Model model){
         model.addAttribute("games", gameClubService.GetGameList());
-        if(gameClubService.IsAdmin()){
-            model.addAttribute("playerrole", "admin");
-        }
+        AddRole(model);
         return "gamesList";
     }
 
+    public void AddRole(Model model){
+        if(gameClubService.IsAdmin()){
+            model.addAttribute("playerrole", "admin");
+        }
+    }
 
+    @GetMapping(value = "/listgamesform")
+    public String ListGamesForm(){
+        return "";
+    }
+
+    @RequestMapping(value = "/listgamesadd", method = RequestMethod.POST)
+    public String ListGamesAdd(){
+        return "";
+    }
 
 }

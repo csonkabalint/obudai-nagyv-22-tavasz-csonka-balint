@@ -39,21 +39,10 @@ public class GroupsController {
         return "adminGroup";
     }
 
-
-    @GetMapping(value = "/events")
-    public String Events(Model model){
-        model.addAttribute("events", gameClubService.GetGroupEvents());
-        model.addAttribute("event", new EventDTO());
-        return "eventsList";
-    }
-
-    @RequestMapping(value = "/addevent", method = RequestMethod.POST)
-    public String AddEvent(@ModelAttribute EventDTO event, Model model){
-        if(event.getLocation().length() > 0 && event.getDescription().length() > 0) {
-            gameClubService.AddEvent(event.getDate(), event.getLocation(), event.getDescription());
+    public void AddRole(Model model){
+        if(gameClubService.IsAdmin()){
+            model.addAttribute("playerrole", "admin");
         }
-        model.addAttribute("events", gameClubService.GetGroupEvents());
-        model.addAttribute("event", new EventDTO());
-        return "eventsList";
     }
+
 }
