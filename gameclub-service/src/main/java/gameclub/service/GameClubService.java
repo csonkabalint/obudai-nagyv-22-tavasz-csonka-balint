@@ -1,23 +1,17 @@
 package gameclub.service;
 
 import gameclub.domain.*;
-import gameclub.dto.GameDTO;
-import gameclub.dto.GroupDTO;
-import gameclub.dto.PlayerRoleDTO;
-import gameclub.persistence.GameRepository;
-import gameclub.persistence.GroupRepository;
-import gameclub.persistence.JoinRequestRepository;
-import gameclub.persistence.PlayerRepository;
+import gameclub.dto.*;
+import gameclub.persistence.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -34,6 +28,9 @@ public class GameClubService {
 
     @Autowired
     private JoinRequestRepository joinRequestRepository;
+
+    @Autowired
+    private EventRepository eventRepository;
 
     @Autowired
     public IdentityManager identityManager;
@@ -114,13 +111,6 @@ public class GameClubService {
         }
     }
 
-    public HashMap<Long, String> ListGroups(){
-        HashMap<Long, String> groupList = new HashMap<>();
-        for (Group group : groupRepository.findAll()){
-            groupList.put(group.getId(),group.getName());
-        }
-        return groupList;
-    }
 
     public List<GroupDTO> GetGroupList(){
         ArrayList<GroupDTO> groupDTOList = new ArrayList<>();
@@ -138,9 +128,43 @@ public class GameClubService {
         return groupDTOList;
     }
 
+    public List<GroupDTO> GetOtherGroupList(long groupID){
+        ArrayList<GroupDTO> groupDTOList = new ArrayList<>();
+        Player player = GetAuthenticatedPlayer();
+        int i = 0;
+        for (Group group : groupRepository.findAll().stream().filter(g -> !g.getMembers().contains(player)).collect(Collectors.toList())){
+            groupDTOList.add(new GroupDTO(group));
+            if(joinRequestRepository.findAll().stream().filter(j -> j.getGroup() == group && j.getPlayer() == player).findAny().orElse(null) != null){
+                groupDTOList.get(i).setHasRequested(true);
+            }
+            else{
+                groupDTOList.get(i).setHasRequested(false);
+            }
+            i++;
+        }
+        return groupDTOList;
+    }
+
     public GroupDTO GetGroup(long groupID){
         GroupDTO group = new GroupDTO(groupRepository.findById(groupID).orElse(null));
         return group;
+    }
+
+
+
+    public List<JoinRequestDTO> GetJoinRequests(){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Player player = playerRepository.findByLoginName(userDetails.getUsername());
+        Group group = groupRepository.findByAdmin(player);
+        List<JoinRequest> joinRequests = joinRequestRepository.findAll().stream().filter(j -> j.getGroup().getAdmin() == player).collect(Collectors.toList());
+        List<JoinRequestDTO> joinRequestDTOs = new ArrayList<>();
+        for (JoinRequest j : joinRequests){
+            joinRequestDTOs.add(new JoinRequestDTO(j));
+        }
+        for (JoinRequestDTO j : joinRequestDTOs){
+            System.out.println(j.getPlayerName());
+        }
+        return joinRequestDTOs;
     }
 
    public HashMap<Long, String> ListJoinRequests(){
@@ -192,6 +216,31 @@ public class GameClubService {
         EvaluateJoinRequest(evaluation,userID);
     }
 
+    public List<EventDTO> GetGroupEvents(){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Player player = playerRepository.findByLoginName(userDetails.getUsername());
+        Group group = groupRepository.findByAdmin(player);
+        List<EventDTO> eventDTOs = new ArrayList<>();
+        for(Event e : group.getEvents()){
+            eventDTOs.add(new EventDTO(e));
+        }
+        return eventDTOs;
+    }
+
+    public void AddEvent(String location){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Player player = playerRepository.findByLoginName(userDetails.getUsername());
+        Group group = groupRepository.findByAdmin(player);
+        //groupRepository.findById(group.getId()).get().AddEvent(new Event(LocalDateTime.now(), location));
+        Event event = new Event(LocalDateTime.now(),location);
+        eventRepository.save(event);
+        group.AddEvent(event);
+        groupRepository.save(group);
+        for(Event e : groupRepository.findById(group.getId()).get().getEvents()){
+            System.out.println(e.getPlace() + " " + e.getId());
+        }
+    }
+
 
     @ModelAttribute("player")
     public Player GetAuthenticatedPlayer(){
@@ -220,6 +269,13 @@ public class GameClubService {
             return true;
         }
         return false;
+    }
+
+    public GroupDTO GetAdminGroup(){
+        UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Player player = playerRepository.findByLoginName(userDetails.getUsername());
+        Group group = groupRepository.findByAdmin(player);
+        return new GroupDTO(group);
     }
 
 }

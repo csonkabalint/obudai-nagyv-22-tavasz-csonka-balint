@@ -30,4 +30,12 @@ public class JoinRequestId implements Serializable {
     public void setGroup(Group group) {
         this.group = group;
     }
+
+    public JoinRequestId(Player player, Group group) {
+        this.player = player;
+        this.group = group;
+    }
+
+    public JoinRequestId() {
+    }
 }

@@ -1,0 +1,58 @@
+<html>
+<head>
+    <div th:insert="menu"></div>
+    <link href="css/bootstrap.css" rel="stylesheet"/>
+    <link href="css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+    <div class="card border border-info border-3">
+        <div class="card-header bg-info">
+            <h3>Group details</h3>
+        </div>
+        <div class="card-body bg-light">
+            <dl class="row">
+                <dt class="col-sm-3">Name</dt>
+                <dd class="col-sm-9"th:text="${group.name}"></dd>
+            </dl>
+
+            <h6>Members</h6>
+            <table class="table table-bordered bg-white">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="member : ${group.members}">
+                    <td th:text="${member.name}"/>
+                    <td th:text="${member.email}"/>
+                </tr>
+                </tbody>
+            </table>
+
+
+            <h6>Join Requests</h6>
+            <table class="table table-bordered bg-white">
+                <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="req : ${joinrequests}">
+                    <td th:text="${req.playerName}"/>
+                </tr>
+                </tbody>
+            </table>
+
+            <h6>
+                <a HREF="/events">Events</a>
+            </h6>
+        </div>
+    </div>
+</div>
+</body>
+</html>

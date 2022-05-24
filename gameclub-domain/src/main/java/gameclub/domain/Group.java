@@ -72,4 +72,9 @@ public class Group {
         this.members = members;
         this.events = events;
     }
+
+    public void AddEvent(Event event){
+        events.add(event);
+    }
+
 }

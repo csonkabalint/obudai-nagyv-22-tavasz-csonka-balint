@@ -14,5 +14,6 @@ public interface GroupRepository extends CrudRepository<Group, Long> {
 
     public List<Group> findByMembers(Player member);
 
+    public Group findByAdmin(Player admin);
 
 }

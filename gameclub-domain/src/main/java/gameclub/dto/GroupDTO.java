@@ -13,6 +13,7 @@ public class GroupDTO {
     String name;
     String admin;
     int noOfMembers;
+    boolean hasRequested;
     List<PlayerDTO> members;
     List<EventDTO> events;
 
@@ -47,6 +48,14 @@ public class GroupDTO {
 
     public void setNoOfMembers(int noOfMembers) {
         this.noOfMembers = noOfMembers;
+    }
+
+    public boolean isHasRequested() {
+        return hasRequested;
+    }
+
+    public void setHasRequested(boolean hasRequested) {
+        this.hasRequested = hasRequested;
     }
 
     public List<PlayerDTO> getMembers() {

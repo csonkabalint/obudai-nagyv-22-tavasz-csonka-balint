@@ -1,0 +1,25 @@
+<html>
+<head>
+  <link href="css/bootstrap.css" rel="stylesheet"/>
+  <link href="css/custom.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="container">
+
+  <div class="card border border-info border-3">
+    <div class="card-header bg-info">
+      <h3>Add Event</h3>
+    </div>
+    <div class="card-body bg-light">
+      <form method="post" th:action="@{/addevent}" th:object="${event}">
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input id="location" class="form-control" type="text" th:field="*{location}"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -22,6 +22,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .defaultSuccessUrl("/home", true);
+        http.cors().and().csrf().disable();
     }
 
     @Bean

@@ -19,8 +19,8 @@ public class Event {
     @ManyToMany
     List<Player> participants;
 
-    @OneToOne
-    Group group;
+    /*@OneToOne
+    Group group;*/
 
     public long getId() {
         return id;
@@ -54,11 +54,21 @@ public class Event {
         this.participants = participants;
     }
 
-    public Group getGroup() {
+    /*public Group getGroup() {
         return group;
     }
 
     public void setGroup(Group group) {
         this.group = group;
+    }*/
+
+    public Event(LocalDateTime date, String place) {
+        this.participants = new ArrayList<>();
+        this.date = date;
+        this.place = place;
+    }
+
+    public Event(){
+
     }
 }
