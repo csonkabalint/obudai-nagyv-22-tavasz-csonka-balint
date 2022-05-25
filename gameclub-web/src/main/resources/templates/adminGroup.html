@@ -44,6 +44,13 @@
                 <tbody>
                 <tr th:each="req : ${joinrequests}">
                     <td th:text="${req.playerName}"/>
+                    <td>
+                        <form th:action="@{/acceptreq(groupid=${group.id}, userid=${req.userId})}" method="post">
+                            <input type="submit" value="Accept">
+                        </form>
+
+                    </td>
+
                 </tr>
                 </tbody>
             </table>

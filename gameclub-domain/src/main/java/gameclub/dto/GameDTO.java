@@ -10,7 +10,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameDTO {
-    
+
+    long id;
+
     String name;
     
     String description;
@@ -24,6 +26,14 @@ public class GameDTO {
     int numberOfPlayersMin;
     
     List<String> categories;
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -90,6 +100,7 @@ public class GameDTO {
     }
 
     public GameDTO(Game game) {
+        this.id = game.getId();
         this.name = game.getName();
         this.description = game.getDescription();
         this.minimumAge = game.getMinimumAge();

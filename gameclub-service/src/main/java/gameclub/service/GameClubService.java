@@ -86,19 +86,31 @@ public class GameClubService {
         return gameDTOList;
     }
 
-
-   public ArrayList<String> ListGameDescriptions(){
-        ArrayList<String> desc = new ArrayList<>();
-        for(Game game : gameRepository.findAll()){
-            desc.add(game.toString());
+    public List<GameDTO> GetUserGameList(){
+        ArrayList<GameDTO> gameDTOList = new ArrayList<>();
+        Player player = GetAuthenticatedPlayer();
+        for (Game game : gameRepository.findAll().stream().filter(g -> player.getGames().contains(g)).collect(Collectors.toList())){
+            gameDTOList.add(new GameDTO(game));
         }
-        return desc;
+        return gameDTOList;
     }
 
-     public void AddGame(long gameID){
-        if (!identityManager.getCurrentPLayer().getGames().stream().anyMatch(g -> g.getId() == gameID)){
-            identityManager.getCurrentPLayer().getGames().add(gameRepository.findById(gameID).orElse(null));
+    public List<GameDTO> GetOtherGameList(){
+        ArrayList<GameDTO> gameDTOList = new ArrayList<>();
+        Player player = GetAuthenticatedPlayer();
+        for (Game game : gameRepository.findAll().stream().filter(g -> !player.getGames().contains(g)).collect(Collectors.toList())){
+            gameDTOList.add(new GameDTO(game));
         }
+        return gameDTOList;
+    }
+
+
+
+     public void AddGame(long gameID){
+        Player player = GetAuthenticatedPlayer();
+        Game game = gameRepository.findById(gameID).orElse(null);
+        player.getGames().add(game);
+        playerRepository.save(player);
     }
 
     public void AddNewGame(GameDTO gameDTO){
@@ -166,7 +178,7 @@ public class GameClubService {
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         Group group = groupRepository.findByAdmin(player);
-        List<JoinRequest> joinRequests = joinRequestRepository.findAll().stream().filter(j -> j.getGroup().getAdmin() == player).collect(Collectors.toList());
+        List<JoinRequest> joinRequests = joinRequestRepository.findAll().stream().filter(j -> j.getGroup().getAdmin() == player && j.getState() == JoinRequestState.REQUESTED).collect(Collectors.toList());
         List<JoinRequestDTO> joinRequestDTOs = new ArrayList<>();
         for (JoinRequest j : joinRequests){
             joinRequestDTOs.add(new JoinRequestDTO(j));
@@ -216,6 +228,21 @@ public class GameClubService {
         else if(evaluation.toUpperCase().equals("R")){
             request.setState(JoinRequestState.REJECTED);
         }
+    }
+
+
+    public void AcceptJoinRequest(long groupid, long userid){
+        JoinRequest joinRequest = joinRequestRepository.findAll().stream()
+                .filter(j -> j.getPlayer().getId() == userid && j.getGroup().getId() == groupid).findFirst().orElse(null);
+        Player player = playerRepository.findById(userid).orElse(null);
+        Group group = groupRepository.findById(groupid).orElse(null);
+        joinRequest.setState(JoinRequestState.ACCEPTED);
+        joinRequestRepository.save(joinRequest);
+        group.getMembers().add(player);
+        for(Player m : group.getMembers()){
+            System.out.println(m.getName());
+        }
+        groupRepository.save(group);
     }
 
     public void EvaluateJoinRequest(String evaluationWithID){
@@ -324,6 +351,13 @@ public class GameClubService {
             categories.add(category.toString());
         }
         return categories;
+    }
+
+    public void RejectJoinRequest(long groupid, long userid) {
+        JoinRequest joinRequest = joinRequestRepository.findAll().stream()
+                .filter(j -> j.getPlayer().getId() == userid && j.getGroup().getId() == groupid).findFirst().orElse(null);
+        joinRequest.setState(JoinRequestState.REJECTED);
+        joinRequestRepository.save(joinRequest);
     }
 }
 
