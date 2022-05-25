@@ -26,11 +26,6 @@ public class GroupsController {
         return "groupDetails";
     }
 
-    @PostMapping(value = "/createjoinrequest")
-    public String CreateJoinRequest(@RequestParam String groupid){
-        gameClubService.CreateJoinRequest(Long.parseLong(groupid));
-        return "redirect:groups";
-    }
 
     @GetMapping(value = "/mygroup")
     public String MyGroup(Model model){

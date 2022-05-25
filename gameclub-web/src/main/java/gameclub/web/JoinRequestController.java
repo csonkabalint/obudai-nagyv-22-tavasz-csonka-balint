@@ -13,6 +13,12 @@ public class JoinRequestController {
     @Autowired
     GameClubService gameClubService;
 
+    @PostMapping(value = "/createjoinrequest")
+    public String CreateJoinRequest(@RequestParam String groupid){
+        gameClubService.CreateJoinRequest(Long.parseLong(groupid));
+        return "redirect:groups";
+    }
+
     @PostMapping(value = "/acceptreq")
     public ModelAndView AcceptRequest(@RequestParam String groupid, @RequestParam String userid){
         gameClubService.AcceptJoinRequest(Long.parseLong(groupid),Long.parseLong(userid));

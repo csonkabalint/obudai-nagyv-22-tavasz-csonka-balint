@@ -38,7 +38,8 @@
                 <thead>
                 <tr>
                     <th scope="col">Name</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Accept</th>
+                    <th scope="col">Reject</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,7 +49,11 @@
                         <form th:action="@{/acceptreq(groupid=${group.id}, userid=${req.userId})}" method="post">
                             <input type="submit" value="Accept">
                         </form>
-
+                    </td>
+                    <td>
+                        <form th:action="@{/rejectreq(groupid=${group.id}, userid=${req.userId})}" method="post">
+                            <input type="submit" value="Reject">
+                        </form>
                     </td>
 
                 </tr>
