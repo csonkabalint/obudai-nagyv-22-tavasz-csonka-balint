@@ -2,10 +2,6 @@ package gameclub.dto;
 
 import gameclub.domain.Category;
 import gameclub.domain.Game;
-import gameclub.domain.Limits;
-import org.springframework.context.annotation.Bean;
-
-import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
