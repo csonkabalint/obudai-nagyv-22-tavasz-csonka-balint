@@ -41,12 +41,17 @@ public class AppController {
     public String ListGamesForm(Model model){
         model.addAttribute("games", gameClubService.GetGameList());
         model.addAttribute("game", new GameDTO());
+        model.addAttribute("categoryList", gameClubService.GetGameCategories());
         return "listGamesForm";
     }
 
     @RequestMapping(value = "/listgamesadd", method = RequestMethod.POST)
-    public String ListGamesAdd(){
-        return "";
+    public String ListGamesAdd(@ModelAttribute GameDTO game,Model model){
+        gameClubService.AddNewGame(game);
+        model.addAttribute("games", gameClubService.GetGameList());
+        model.addAttribute("game", new GameDTO());
+        model.addAttribute("categoryList", gameClubService.GetGameCategories());
+        return "listGamesForm";
     }
 
 }

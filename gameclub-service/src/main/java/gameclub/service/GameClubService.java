@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.annotation.PostConstruct;
+import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -75,18 +76,6 @@ public class GameClubService {
 
 
 
-    public void SetCurrentPLayer(String loginName, String loginPassword){
-        Player currentPlayer = playerRepository.findByLoginNameAndPassword(loginName, loginPassword);
-        identityManager.setCurrentPLayer(currentPlayer);
-    }
-
-    public HashMap<Long, String> ListGames(){
-        HashMap<Long, String> gameList = new HashMap<>();
-        for (Game game : gameRepository.findAll()){
-            gameList.put(game.getId(),game.getName());
-        }
-        return gameList;
-    }
 
 
     public List<GameDTO> GetGameList(){
@@ -110,6 +99,29 @@ public class GameClubService {
         if (!identityManager.getCurrentPLayer().getGames().stream().anyMatch(g -> g.getId() == gameID)){
             identityManager.getCurrentPLayer().getGames().add(gameRepository.findById(gameID).orElse(null));
         }
+    }
+
+    public void AddNewGame(GameDTO gameDTO){
+        for(String c : gameDTO.getCategories()){
+            System.out.println(c);
+        }
+        Game game = new Game();
+        game.setName(gameDTO.getName());
+        game.setMinimumAge(gameDTO.getMinimumAge());
+        game.setDescription(gameDTO.getDescription());
+        for(String category : gameDTO.getCategories()){
+            game.getCategories().add(Category.valueOf(category));
+        }
+        Limits noPlayers = new Limits();
+        noPlayers.setMin(gameDTO.getNumberOfPlayersMin());
+        noPlayers.setMax(gameDTO.getNumberOfPlayersMax());
+        game.setNumberOfPlayers(noPlayers);
+        Limits playtime = new Limits();
+        playtime.setMin(gameDTO.getPlayTimeMin());
+        playtime.setMax(gameDTO.getPlayTimeMax());
+        game.setPlayTime(playtime);
+        System.out.println(game.getCategories().get(0));
+        gameRepository.save(game);
     }
 
 
@@ -243,6 +255,7 @@ public class GameClubService {
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         Group group = groupRepository.findByAdmin(player);
         Event event = new Event();
+        //dátumo be kell még állitani
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         //event.setDate(); = event.getDate().format(formatter);
         event.setDate(LocalDateTime.now());
@@ -308,5 +321,12 @@ public class GameClubService {
     }
 
 
+    public List<String> GetGameCategories() {
+        List<String> categories = new ArrayList<>();
+        for(Category category : Arrays.asList(Category.values())){
+            categories.add(category.toString());
+        }
+        return categories;
+    }
 }
 

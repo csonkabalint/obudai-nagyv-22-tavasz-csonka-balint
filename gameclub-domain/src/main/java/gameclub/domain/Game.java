@@ -92,6 +92,7 @@ public class Game {
     }
 
     public Game() {
+        categories = new ArrayList<>();
     }
 
     public Game(String name, String description, int minimumAge, Limits playTime, Limits numberOfPlayers, List<Category> categories) {

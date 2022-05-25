@@ -44,48 +44,45 @@
             <form  method="post" th:action="@{/listgamesadd}" th:object="${game}">
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name">
+                    <input type="text" class="form-control" id="name" th:field="*{name}">
                 </div>
                 <div class="form-group">
                     <label for="description">Description</label>
-                    <textarea class="form-control" id="description" rows="3"></textarea>
+                    <textarea class="form-control" id="description" rows="3" th:field="*{description}"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="minAge">Minimum age</label>
-                    <input type="text" class="form-control" id="minAge">
+                    <input type="number" class="form-control" id="minAge" th:field="*{minimumAge}">
                 </div>
 
                 <div class="row">
                     <div class="form-group col-sm">
                         <div class="row-sm mb-3">
                             <label for="noOfPlayersMin">No. players min</label>
-                            <input type="number" class="form-control col-sm" id="noOfPlayersMin">
+                            <input type="number" class="form-control col-sm" id="noOfPlayersMin" th:field="*{numberOfPlayersMin}">
                         </div>
                         <div class="row-sm">
                             <label for="noOfPlayersMax">No. players max</label>
-                            <input type="number" class="form-control col-sm" id="noOfPlayersMax">
+                            <input type="number" class="form-control col-sm" id="noOfPlayersMax" th:field="*{numberOfPlayersMax}">
                         </div>
                     </div>
 
                     <div class="form-group col-sm">
                         <div class="row-sm mb-3">
                             <label for="playTimeMin">Play time min</label>
-                            <input type="number" class="form-control col-sm" id="playTimeMin">
+                            <input type="number" class="form-control col-sm" id="playTimeMin" th:field="*{playTimeMin}">
                         </div>
                         <div class="row-sm">
                             <label for="playTimeMax">Play time max</label>
-                            <input type="number" class="form-control col-sm" id="playTimeMax">
+                            <input type="number" class="form-control col-sm" id="playTimeMax" th:field="*{playTimeMax}">
                         </div>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="categories">Category</label>
-                    <select multiple class="form-control" id="categories">
-                        <option>Fantasy</option>
-                        <option>Mythology</option>
-                        <option>War</option>
-                        <option>Strategy</option>
+                    <select multiple class="form-control" id="categories" th:field="*{categories}">
+                        <option th:each="category : ${categoryList}" th:text="${category}" th:value="${category}"></option>
                     </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Create</button>
