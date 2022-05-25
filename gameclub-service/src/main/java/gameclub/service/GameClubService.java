@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import javax.annotation.PostConstruct;
-import javax.swing.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -34,8 +33,6 @@ public class GameClubService {
     @Autowired
     private EventRepository eventRepository;
 
-    @Autowired
-    public IdentityManager identityManager;
 
     @PostConstruct
     public void InitData(){
@@ -52,12 +49,12 @@ public class GameClubService {
                 new Limits(2, 4),
                 Arrays.asList(Category.STRATEGY)));
 
-        playerRepository.save(new Player("nagys","Nagy Sándor","ns-secret","nagy.sandor@gmail.com", Arrays.asList(Role.SUPERUSER),null));
-        playerRepository.save(new Player("horvatha","Horváth Adám","ha-secret","horvath.adam@gmail.com", Arrays.asList(Role.GROUP_ADMIN, Role.PLAYER),Arrays.asList(gameRepository.findById(1L).orElse(null), gameRepository.findById(2L).orElse(null))));
-        playerRepository.save(new Player("kovacsp","Kovács Péter","kp-secret","kovacs.peter@gmail.com", Arrays.asList(Role.PLAYER),Arrays.asList(gameRepository.findById(1L).orElse(null))));
-        playerRepository.save(new Player("kissi","Kiss István","ki-secret","kiss.istvan@gmail.com", Arrays.asList(Role.PLAYER),Arrays.asList(gameRepository.findById(2L).orElse(null))));
-        playerRepository.save(new Player("","a","","a@gmail.com", Arrays.asList(Role.PLAYER),Arrays.asList(gameRepository.findById(2L).orElse(null))));
-        playerRepository.save(new Player("janika","Bodrogi János","janika1","janiabodrogon@gmail.com", Arrays.asList(Role.GROUP_ADMIN,Role.PLAYER),Arrays.asList(gameRepository.findById(2L).orElse(null))));
+        playerRepository.save(new Player("nagys","Nagy Sándor","ns-secret","nagy.sandor@gmail.com", Arrays.asList(Role.ROLE_SUPERUSER),null));
+        playerRepository.save(new Player("horvatha","Horváth Adám","ha-secret","horvath.adam@gmail.com", Arrays.asList(Role.ROLE_GROUP_ADMIN, Role.ROLE_PLAYER),Arrays.asList(gameRepository.findById(1L).orElse(null), gameRepository.findById(2L).orElse(null))));
+        playerRepository.save(new Player("kovacsp","Kovács Péter","kp-secret","kovacs.peter@gmail.com", Arrays.asList(Role.ROLE_PLAYER),Arrays.asList(gameRepository.findById(1L).orElse(null))));
+        playerRepository.save(new Player("kissi","Kiss István","ki-secret","kiss.istvan@gmail.com", Arrays.asList(Role.ROLE_PLAYER),Arrays.asList(gameRepository.findById(2L).orElse(null))));
+        playerRepository.save(new Player("","a","","a@gmail.com", Arrays.asList(Role.ROLE_PLAYER),Arrays.asList(gameRepository.findById(2L).orElse(null))));
+        playerRepository.save(new Player("janika","Bodrogi János","janika1","janiabodrogon@gmail.com", Arrays.asList(Role.ROLE_GROUP_ADMIN,Role.ROLE_PLAYER),Arrays.asList(gameRepository.findById(2L).orElse(null))));
 
 
         groupRepository.save(new Group("Óbudai Informatika Játék Csoport",playerRepository.findById(2L).orElse(null),Arrays.asList(playerRepository.findById(3L).orElse(null)),null));
@@ -198,19 +195,6 @@ public class GameClubService {
     }
 
 
-    public void EvaluateJoinRequest(String evaluation,long userID){
-        JoinRequest request = joinRequestRepository.findAll().stream().filter(j -> (j.getPlayer().getId() == userID && j.getGroup().getAdmin().getId() ==
-                identityManager.getCurrentPLayer().getId())).findFirst().orElse(null);
-
-        if (evaluation.toUpperCase().equals("A")){
-            request.setState(JoinRequestState.ACCEPTED);
-            groupRepository.findAll().stream().filter(g -> g.getId() == request.getGroup().getId()).findFirst().orElse(null).getMembers().add(
-                   playerRepository.findAll().stream().filter(p -> p.getId() == userID).findFirst().orElse(null));
-        }
-        else if(evaluation.toUpperCase().equals("R")){
-            request.setState(JoinRequestState.REJECTED);
-        }
-    }
 
 
     public void AcceptJoinRequest(long groupid, long userid){
@@ -277,7 +261,7 @@ public class GameClubService {
     public PlayerRoleDTO GetPlayerRole(){
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Role> roles =playerRepository.findByLoginName(userDetails.getUsername()).getRoles();
-        PlayerRoleDTO playerRole = new PlayerRoleDTO(Role.PLAYER);
+        PlayerRoleDTO playerRole = new PlayerRoleDTO(Role.ROLE_PLAYER);
         return playerRole;
     }
 
@@ -288,14 +272,14 @@ public class GameClubService {
     }
 
     public boolean IsAdmin(){
-        if(GetPlayerRoles().contains(Role.GROUP_ADMIN)){
+        if(GetPlayerRoles().contains(Role.ROLE_GROUP_ADMIN)){
             return true;
         }
         return false;
     }
 
     public boolean IsSuperUser(){
-        if(GetPlayerRoles().contains(Role.SUPERUSER)){
+        if(GetPlayerRoles().contains(Role.ROLE_SUPERUSER)){
             return true;
         }
         return false;

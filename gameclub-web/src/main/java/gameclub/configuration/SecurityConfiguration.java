@@ -22,7 +22,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
                 .formLogin()
                 .defaultSuccessUrl("/home", true);
-        http.cors().and().csrf().disable();
+        http.cors().and().csrf()
+                .disable()
+                .authorizeHttpRequests()
+                //.antMatchers("/mygroup/**").hasRole("ROLE_GROUP_ADMIN")
+                .anyRequest().authenticated();
     }
 
     @Bean

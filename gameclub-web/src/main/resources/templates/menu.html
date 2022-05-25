@@ -17,9 +17,11 @@
             <li class="nav-item">
                 <a class="nav-link" href="games">Games</a>
             </li>
-            <li th:if="${playerrole == 'admin'}" class="nav-item">
-                <a class="nav-link" href="mygroup">My Group</a>
-            </li>
+            <sec:authorize access="hasRole('GROUP_ADMIN')">
+                <li class="nav-item">
+                    <a class="nav-link" href="mygroup">My Group</a>
+                </li>
+            </sec:authorize>
         </ul>
         <li class="nav-item">
             <a class="nav-link" href="logout">Logout</a>

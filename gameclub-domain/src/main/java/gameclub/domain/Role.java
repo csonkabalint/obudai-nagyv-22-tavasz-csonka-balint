@@ -1,7 +1,14 @@
 package gameclub.domain;
 
-public enum Role {
-    SUPERUSER,
-    GROUP_ADMIN,
-    PLAYER
+import org.springframework.security.core.GrantedAuthority;
+
+public enum Role implements GrantedAuthority {
+    ROLE_SUPERUSER,
+    ROLE_GROUP_ADMIN,
+    ROLE_PLAYER;
+
+    @Override
+    public String getAuthority() {
+        return name();
+    }
 }
