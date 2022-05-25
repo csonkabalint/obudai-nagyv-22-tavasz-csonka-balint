@@ -102,9 +102,6 @@ public class GameClubService {
     }
 
     public void AddNewGame(GameDTO gameDTO){
-        for(String c : gameDTO.getCategories()){
-            System.out.println(c);
-        }
         Game game = new Game();
         game.setName(gameDTO.getName());
         game.setMinimumAge(gameDTO.getMinimumAge());
