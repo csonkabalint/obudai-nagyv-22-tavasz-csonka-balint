@@ -189,28 +189,10 @@ public class GameClubService {
         return joinRequestDTOs;
     }
 
-   public HashMap<Long, String> ListJoinRequests(){
-        HashMap<Long, String> joinRequestsList = new HashMap<>();
-        for (JoinRequest joinRequest : joinRequestRepository.findAll()){
-            joinRequestsList.put(joinRequest.getPlayer().getId(),joinRequest.getPlayer().getName());
-        }
-        return joinRequestsList;
-    }
-
-    public HashMap<Long, String> ListJoinRequestsForGroupAdmin(long adminID){
-        HashMap<Long, String> joinRequestsList = new HashMap<>();
-        for (var joinRequest : (joinRequestRepository.findAll().stream().filter(r ->
-                groupRepository.findAll().stream().filter(g -> g.getAdmin().getId() == adminID).anyMatch(g ->g.getId() == r.getGroup().getId())).toArray())){
-            joinRequestsList.put(((JoinRequest)joinRequest).getPlayer().getId(),((JoinRequest)joinRequest).getPlayer().getName());
-        }
-        return joinRequestsList;
-    }
 
     public void CreateJoinRequest(long groupID){
         /*if(groupRepository.findById(groupID).get().getMembers().contains(GetAuthenticatedPlayer()))
-        {
-
-        }*/
+        {}*/
         joinRequestRepository.save(new JoinRequest(JoinRequestState.REQUESTED,groupRepository.findById(groupID).orElse(null),GetAuthenticatedPlayer()));
         System.out.println(joinRequestRepository.count()+ ",");
     }
@@ -245,14 +227,6 @@ public class GameClubService {
         groupRepository.save(group);
     }
 
-    public void EvaluateJoinRequest(String evaluationWithID){
-
-        long userID = Long.parseLong(evaluationWithID.substring(0,evaluationWithID.length() - 1));
-        String evaluation = evaluationWithID.substring(evaluationWithID.length() - 1,evaluationWithID.length()).toUpperCase();
-
-        EvaluateJoinRequest(evaluation,userID);
-    }
-
     public List<EventDTO> GetGroupEvents(){
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
@@ -279,7 +253,7 @@ public class GameClubService {
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         Group group = groupRepository.findByAdmin(player);
         Event event = new Event();
-        //dátumo be kell még állitani
+        //dátumot be kell még állitani
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         //event.setDate(); = event.getDate().format(formatter);
         event.setDate(LocalDateTime.now());
