@@ -237,10 +237,9 @@ public class GameClubService {
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         Group group = groupRepository.findByAdmin(player);
         Event event = new Event();
-        //dátumot be kell még állitani
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        //event.setDate(); = event.getDate().format(formatter);
-        event.setDate(LocalDateTime.now());
+        System.out.println(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+        event.setDate(LocalDateTime.parse(date, formatter));
         event.setPlace(location);
         event.setDescription(description);
         eventRepository.save(event);

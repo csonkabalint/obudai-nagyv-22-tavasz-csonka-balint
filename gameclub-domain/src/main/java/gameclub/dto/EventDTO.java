@@ -3,6 +3,7 @@ package gameclub.dto;
 import gameclub.domain.Event;
 import gameclub.domain.Player;
 
+import javax.validation.constraints.NotBlank;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +11,16 @@ import java.util.List;
 public class EventDTO {
 
     long id;
+
+    @InFuture
     String date;
+
+    @NotBlank
     String location;
+
+    @NotBlank
     String description;
+
     List<String> participants;
 
     public long getId() {
