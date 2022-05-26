@@ -5,7 +5,11 @@ import gameclub.service.GameClubService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.validation.Valid;
 
 @Controller
 public class EventController {
@@ -27,13 +31,12 @@ public class EventController {
     }
 
     @RequestMapping(value = "/addevent", method = RequestMethod.POST)
-    public String AddEvent(@ModelAttribute EventDTO event, Model model){
-        if(event.getLocation().length() > 0 && event.getDescription().length() > 0) {
-            gameClubService.AddEvent(event.getDate(), event.getLocation(), event.getDescription());
+    public ModelAndView AddEvent(@Valid @ModelAttribute EventDTO event, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new ModelAndView("redirect:/events");
         }
-        model.addAttribute("events", gameClubService.GetGroupEvents());
-        model.addAttribute("event", new EventDTO());
-        return "eventsList";
+        gameClubService.AddEvent(event);
+        return new ModelAndView("redirect:/events");
     }
 
 }

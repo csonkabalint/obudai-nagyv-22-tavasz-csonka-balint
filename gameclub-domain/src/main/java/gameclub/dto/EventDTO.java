@@ -4,6 +4,7 @@ import gameclub.domain.Event;
 import gameclub.domain.Player;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +13,7 @@ public class EventDTO {
 
     long id;
 
+    @NotNull
     @InFuture
     String date;
 

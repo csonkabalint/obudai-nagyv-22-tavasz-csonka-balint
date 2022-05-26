@@ -232,16 +232,16 @@ public class GameClubService {
         groupRepository.save(group);
     }
 
-    public void AddEvent(String date, String location, String description) {
+    public void AddEvent(EventDTO eventDTO) {
         UserDetailContainer userDetails = (UserDetailContainer) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Player player = playerRepository.findByLoginName(userDetails.getUsername());
         Group group = groupRepository.findByAdmin(player);
         Event event = new Event();
-        System.out.println(date);
+        System.out.println(eventDTO.getDate());
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-        event.setDate(LocalDateTime.parse(date, formatter));
-        event.setPlace(location);
-        event.setDescription(description);
+        event.setDate(LocalDateTime.parse(eventDTO.getDate(), formatter));
+        event.setPlace(eventDTO.getLocation());
+        event.setDescription(eventDTO.getDescription());
         eventRepository.save(event);
         group.AddEvent(event);
         groupRepository.save(group);
